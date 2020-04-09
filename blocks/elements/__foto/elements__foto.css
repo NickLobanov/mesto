@@ -1,7 +1,8 @@
+@import url(_img/elements__foto_img_dombay.css);
+@import url(_img/elements__foto_img_elbrus.css);
+@import url(_img/elements__foto_img_karachaevsk.css);
+
 .elements__foto {
-   background-image: url(../../../images/karachaevsk.jpg);
-   background-repeat: no-repeat;
-   background-size: contain;
    height: 282px;
    border-radius: 10px 10px 0 0;
 }
