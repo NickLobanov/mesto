@@ -1,0 +1,9 @@
+.elements__item {
+    width: 282px;
+    margin-right: 18px;
+    margin-bottom: 21px;
+}
+
+.elements__item:nth-child(3n) {
+    margin-right: 0;
+}
