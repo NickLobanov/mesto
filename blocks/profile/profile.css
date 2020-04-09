@@ -1,0 +1,10 @@
+@import url(__description/profile__description.css);
+@import url(__info/profile__info.css);
+@import url(__name/profile__name.css);
+@import url(__foto/profile__foto.css);
+@import url(__button/profile__button.css);
+
+.profile {
+    display: flex;
+    margin-bottom: 47px;
+}

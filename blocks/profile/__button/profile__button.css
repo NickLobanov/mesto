@@ -1,0 +1,10 @@
+.profile__button {
+    width: 150px;
+    height: 50px;
+    border: 2px solid #ffffff;
+    align-self: center;
+    margin-left: auto;
+    background-image: url(../../../images/button-bg.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
