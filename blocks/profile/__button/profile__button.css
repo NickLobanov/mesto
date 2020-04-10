@@ -7,4 +7,6 @@
     background-image: url(../../../images/button-bg.svg);
     background-repeat: no-repeat;
     background-position: center;
+    padding: 0;
+    background-color: black;
 }
