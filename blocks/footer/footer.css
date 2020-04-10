@@ -1,0 +1,9 @@
+@import url(__copy/footer__copy.css);
+
+.footer {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    color: #545454;
+    margin-bottom: 60px;
+}
