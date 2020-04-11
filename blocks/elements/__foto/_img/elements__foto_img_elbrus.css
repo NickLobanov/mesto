@@ -1,5 +1,6 @@
 .elements__foto_img_elbrus {
     background-image: url(../../../../images/elbrus.jpg);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
+    background-position: center;
 }

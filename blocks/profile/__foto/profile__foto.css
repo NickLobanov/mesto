@@ -2,3 +2,16 @@
     height: 120px;
     border-radius: 50%;
 }
+
+@media screen and (max-width: 750px) {
+    .profile__foto {
+        height: 110px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .profile__foto {
+        width: 120px;
+        height: 120px;
+    }
+}

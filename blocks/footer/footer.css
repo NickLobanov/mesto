@@ -7,3 +7,11 @@
     color: #545454;
     margin-bottom: 60px;
 }
+
+@media screen and (max-width: 650px) {
+    .footer {
+        width: 87%;
+        margin: 0 auto;
+        margin-bottom: 36px;
+    }
+}
