@@ -1,0 +1,12 @@
+.popup__input {
+    border: none;
+    border-bottom: 1px solid rgba(00, 00, 00, 0.2);
+    margin-bottom: 29px;
+    padding-bottom: 13px;
+    width: 83%;
+    margin-left: 34px;
+}
+
+.popup__input:last-child {
+    margin-bottom: 48px;
+}
