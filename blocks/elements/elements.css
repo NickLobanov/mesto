@@ -20,5 +20,6 @@
     .elements {
         width: 87%;
         margin: 0 auto;
+        margin-bottom: 48px;
     }
 }
