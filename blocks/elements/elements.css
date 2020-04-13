@@ -9,3 +9,17 @@
     flex-wrap: wrap;
     margin-bottom: 66px;
 }
+
+@media screen and (max-width: 950px) {
+    .elements {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .elements {
+        width: 87%;
+        margin: 0 auto;
+        margin-bottom: 48px;
+    }
+}

@@ -3,6 +3,30 @@
 @import url(_img/elements__foto_img_karachaevsk.css);
 
 .elements__foto {
-   height: 282px;
-   border-radius: 10px 10px 0 0;
+   height: 419px;
+   border-radius: 15px 15px 0 0;
+}
+
+@media screen and (max-width: 1150px) {
+   .elements__foto {
+      height: 330px;
+   }
+}
+
+@media screen and (max-width: 650px) {
+   .elements__foto {
+      height: 530px;
+   }
+}
+
+@media screen and (max-width: 450px) {
+   .elements__foto {
+      height: 380px;
+   }
+}
+
+@media screen and (max-width: 350px) {
+   .elements__foto {
+      height: 350px;
+   }
 }

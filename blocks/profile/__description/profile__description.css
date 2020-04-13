@@ -3,3 +3,17 @@
     font-size: 18px;
     line-height: 22px;
 }
+
+@media screen and (max-width: 750px) {
+    .profile__description {
+        font-size: 16px;
+        line-height: 20px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .profile__description {
+        font-size: 14px;
+        line-height: 17px;
+    }
+}
