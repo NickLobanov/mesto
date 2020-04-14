@@ -2,8 +2,20 @@
 @import url(__title/popup__title.css);
 @import url(__input/popup__input.css);
 @import url(__button/popup__button.css);
+@import url(__close-icon/popup__close-icon.css);
+
 
 .popup {
     display: none;
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(00, 00, 00, .5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    overflow: hidden;
 }
+
+
 

@@ -7,6 +7,29 @@
     margin-left: 34px;
 }
 
-.popup__input:last-child {
+.popup__input:last-of-type {
     margin-bottom: 48px;
+}
+
+
+
+@media screen and (max-width: 430px) {
+    .popup__input {
+        margin-bottom: 10px;
+    }
+
+    .popup__input:last-of-type {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .popup__input {
+        margin: 0 auto;
+        margin-bottom: 10px;
+    }
+
+    .popup__input:last-of-type {
+        margin-bottom: 20px;
+    }
 }

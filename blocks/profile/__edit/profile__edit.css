@@ -12,6 +12,11 @@
     right: -35px;
 }
 
+.profile__edit:hover {
+    opacity: 0.6;
+    transition: 1s linear;
+}
+
 @media screen and (max-width: 650px) {
     .profile__edit {
         width: 18px;
