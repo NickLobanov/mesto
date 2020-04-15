@@ -1,30 +1,35 @@
-.elements__item {
+@import url(__description/article__description.css);
+@import url(__foto/article__foto.css);
+@import url(__like/article__like.css);
+@import url(__name/article__name.css);
+
+.article {
     width: 32.3%;
     margin-right: 1.5%;
     margin-bottom: 21px;
 }
 
-.elements__item:nth-child(3n) {
+.article:nth-child(3n) {
     margin-right: 0;
 }
 
 @media screen and (max-width: 950px) {
-    .elements__item {
+    .article {
         width: 45%;
     }
 
-    .elements__item:nth-child(2n) {
+    .article:nth-child(2n) {
         margin-right: 0;
     }
 
-    .elements__item:nth-child(3n) {
+    .article:nth-child(3n) {
         margin-right: 1.5%;
     }
 }
 
 @media screen and (max-width: 650px) {
-    .elements__item {
-        width: 100%;
+    .article {
+        width: 90%;
         margin: 0;
         margin-bottom: 20px;
     }

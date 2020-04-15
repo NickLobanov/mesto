@@ -1,0 +1,31 @@
+.article__foto {
+    display: block;
+    width: 100%;
+    height: 419px;
+    border-radius: 15px 15px 0 0;
+ }
+ 
+ @media screen and (max-width: 1150px) {
+    .article__foto {
+       height: 330px;
+    }
+ }
+ 
+ @media screen and (max-width: 650px) {
+    .article__foto {
+       height: 500px;
+       border-radius: 18px 18px 0 0;
+    }
+ }
+ 
+ @media screen and (max-width: 450px) {
+    .article__foto {
+       height: 380px;
+    }
+ }
+ 
+ @media screen and (max-width: 350px) {
+    .article__foto {
+       height: 270px;
+    }
+ }
