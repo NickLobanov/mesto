@@ -4,33 +4,27 @@
 @import url(__name/article__name.css);
 
 .article {
-    width: 32.3%;
+    width: 282px;
     margin-right: 1.5%;
     margin-bottom: 21px;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .article:nth-child(3n) {
     margin-right: 0;
 }
 
-@media screen and (max-width: 950px) {
+
+@media screen and (max-width: 882px) {
     .article {
-        width: 45%;
-    }
-
-    .article:nth-child(2n) {
-        margin-right: 0;
-    }
-
-    .article:nth-child(3n) {
-        margin-right: 1.5%;
+        margin: 0;
+        margin-bottom: 20px;
     }
 }
 
 @media screen and (max-width: 650px) {
     .article {
-        width: 90%;
-        margin: 0;
-        margin-bottom: 20px;
+        width: 100%;
     }
 }

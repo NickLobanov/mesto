@@ -1,10 +1,10 @@
 .wrapper {
-    max-width: 1200px;
+    max-width: 882px;
     margin: 0 auto;
     font-family: 'Inter', Arial, sans-serif;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 882px) {
     .wrapper {
         width: 90%;
     }

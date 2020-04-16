@@ -2,11 +2,12 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 66px;
+    min-width: 282px;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 882px) {
     .elements {
-        justify-content: center;
+        justify-content: space-around;
     }
 }
 
