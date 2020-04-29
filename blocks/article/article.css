@@ -2,6 +2,7 @@
 @import url(__foto/article__foto.css);
 @import url(__like/article__like.css);
 @import url(__name/article__name.css);
+@import url(__like/_active/article__like_active.css);
 
 .article {
     width: 282px;

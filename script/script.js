@@ -110,4 +110,11 @@ buttonAdd.addEventListener('click', () => {
     
 })
 
-
+//Создание слушателя "лайков"
+const likeButton = document.querySelectorAll('.article__like');
+likeButton.forEach(item => {
+    item.addEventListener('click', (event) => {
+        const eventTarget = event.target;
+        eventTarget.classList.toggle('article__like_active');
+    })
+})
