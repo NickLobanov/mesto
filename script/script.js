@@ -36,52 +36,78 @@ initialCards.forEach(item => {
     sectionElements.append(newArticle);
 });
 
+//Находим template
+const popupTemplate = document.querySelector('#popup__template').content;
+const wrapper = document.querySelector('.wrapper');
 
 
-// Находим форму в DOM
-const formElement = document.querySelector('.popup');
-const profileEdit = document.querySelector('.profile__edit');
-const popupCloseIcon = formElement.querySelector('.popup__close-icon');
-const popupSave = formElement.querySelector('.popup__button');
-
- // Находим поля формы в DOM
- let formContainer = formElement.querySelector('.popup__container');
- let nameInput = formContainer.querySelector('.popup__input_type_name');
- let jobInput = formContainer.querySelector('.popup__input_type_job')
-
- // Выбираем элементы, куда должны быть вставлены значения полей
- let profileName = document.querySelector('.profile__name');
- let profileJob = document.querySelector('.profile__description')
-
- // функция закрытия popup
-function popupClose() {
-    formElement.classList.remove('popup_opened');
+//Создаем popup редактирования
+function popupEdit (title, button) {
+    const popupClone = popupTemplate.cloneNode(true);
+    popupClone.querySelector('.popup__title').textContent = title;
+    popupClone.querySelector('.popup__button').textContent = button
+    wrapper.append(popupClone);
 }
+popupEdit('Редактировать профиль', 'Сохранить');
+
+//Выбираем элементы, куда будут вставлены значения полей
+let profileName = document.querySelector('.profile__name');
+let profileJob = document.querySelector('.profile__description');
+let inputName = document.querySelector('.popup__input_type_name');
+let inputJob = document.querySelector('.popup__input_type_job');
+
+//Находим элементы формы
+const editButton = document.querySelector('.profile__edit');
+const popupElement = document.querySelector('.popup');
+const closeButton = document.querySelector('.popup__close-icon');
+const saveButton = document.querySelector('.popup__button');
+
+//Открытие popup
+editButton.addEventListener('click', () => {
+    popupElement.classList.add('popup_opened');
+    inputName.value = profileName.textContent;
+    inputJob.value = profileJob.textContent;
+})
+
+//Функция закрытия popup
+const popupClose = () => {
+    popupElement.classList.remove('popup_opened');
+}
+closeButton.addEventListener('click', popupClose);
 
 //Обработчик «отправки» формы
-function formSubmitHandler (evt) {
+const formSubmitHandler = (evt) => {
     evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
 
     // Получите значение полей из свойства value
-    nameInput.value
-    jobInput.value
+    inputName.value
+    inputJob.value
     
     // Вставьте новые значения с помощью textContent
-    profileName.textContent = nameInput.value;
-    profileJob.textContent = jobInput.value;
+    profileName.textContent = inputName.value;
+    profileJob.textContent = inputJob.value;
     
     popupClose();
 }
+saveButton.addEventListener('click', formSubmitHandler);
 
-profileEdit.addEventListener('click', function() {
-    formElement.classList.add('popup_opened');
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileJob.textContent;
+//Создание popup добавления
+function popupAdd (title, button) {
+    const popupAddElement = popupTemplate.cloneNode(true);
+    popupAddElement.querySelector('.popup').classList.add('popup_add')
+    popupAddElement.querySelector('.popup__title').textContent = title;
+    popupAddElement.querySelector('.popup__button').textContent = button
+    popupAddElement.querySelector('.popup__input_type_name').setAttribute('placeholder', 'Название');
+    popupAddElement.querySelector('.popup__input_type_job').setAttribute('placeholder', 'Ссылка на картинку');
+    wrapper.append(popupAddElement);
+}
+popupAdd('Новое место', 'Создать');
+const addTemplate = document.querySelector('.popup_add');
+
+const buttonAdd = document.querySelector('.profile__button');
+buttonAdd.addEventListener('click', () => {
+    addTemplate.classList.add('popup_opened')
+    
 })
-
-popupCloseIcon.addEventListener('click', popupClose);
-// Прикрепляем обработчик к форме:
-// он будет следить за событием “submit” - «отправка»
-popupSave.addEventListener('click', formSubmitHandler);
 
 
