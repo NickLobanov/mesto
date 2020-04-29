@@ -28,13 +28,22 @@ const initialCards = [
 const sectionElements = document.querySelector('.elements');
 const templateElement = document.querySelector('#article__template').content;
 
-initialCards.forEach(item => {
+function createArticle() {
+    sectionElements.innerHTML = ' ';
+    initialCards.forEach(newArticle);
+    addEventBasket ();
+}
+createArticle()
+
+function newArticle (item, index) {
     const newArticle = templateElement.cloneNode(true);
+    newArticle.querySelector('.article').setAttribute('id', index);
     newArticle.querySelector('.article__foto').src = item.link;
     newArticle.querySelector('.article__foto').alt = item.name;
     newArticle.querySelector('.article__name').textContent = item.name;
     sectionElements.append(newArticle);
-});
+}
+
 
 //Находим template
 const popupTemplate = document.querySelector('#popup__template').content;
@@ -118,3 +127,15 @@ likeButton.forEach(item => {
         eventTarget.classList.toggle('article__like_active');
     })
 })
+
+//Создание слушаетля удаления
+function addDelete (event) {
+    const deleteTarget = event.target.parentElement.getAttribute('id');
+    initialCards.splice(deleteTarget, 1);
+    createArticle()
+}
+function addEventBasket () {
+    document.querySelectorAll('.article__basket').forEach(function(item) {
+        item.addEventListener('click', addDelete);
+    })
+}

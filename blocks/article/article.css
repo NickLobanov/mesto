@@ -2,9 +2,11 @@
 @import url(__foto/article__foto.css);
 @import url(__like/article__like.css);
 @import url(__name/article__name.css);
+@import url(__basket/article__basket.css);
 @import url(__like/_active/article__like_active.css);
 
 .article {
+    position: relative;
     width: 282px;
     margin-right: 1.5%;
     margin-bottom: 21px;
