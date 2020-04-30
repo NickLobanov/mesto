@@ -31,7 +31,8 @@ const templateElement = document.querySelector('#article__template').content;
 function createArticle() {
     sectionElements.innerHTML = ' ';
     initialCards.forEach(newArticle);
-    addEventBasket ();
+    addEventBasket();
+    likeButton()
 }
 createArticle()
 
@@ -44,11 +45,9 @@ function newArticle (item, index) {
     sectionElements.append(newArticle);
 }
 
-
 //Находим template
 const popupTemplate = document.querySelector('#popup__template').content;
 const wrapper = document.querySelector('.wrapper');
-
 
 //Создаем popup редактирования
 function popupEdit (title, button) {
@@ -78,11 +77,12 @@ editButton.addEventListener('click', () => {
     inputJob.value = profileJob.textContent;
 })
 
-//Функция закрытия popup
+//Функция закрытия popup редактирования
 const popupClose = () => {
     popupElement.classList.remove('popup_opened');
 }
 closeButton.addEventListener('click', popupClose);
+
 
 //Обработчик «отправки» формы
 const formSubmitHandler = (evt) => {
@@ -113,28 +113,68 @@ function popupAdd (title, button) {
 popupAdd('Новое место', 'Создать');
 const addTemplate = document.querySelector('.popup_add');
 
+//находим поля формы добавления
+const inpuntNameImg = addTemplate.querySelector('.popup__input_type_name');
+const inputUrl = addTemplate.querySelector('.popup__input_type_job');
+
+
+//Функция закрытия popup добавления
+const closeSecondTemplate = () => {
+    addTemplate.classList.remove('popup_opened');
+}
+addTemplate.querySelector('.popup__close-icon').addEventListener('click', closeSecondTemplate);
+
+
 const buttonAdd = document.querySelector('.profile__button');
 buttonAdd.addEventListener('click', () => {
-    addTemplate.classList.add('popup_opened')
-    
+    addTemplate.classList.add('popup_opened');
+    inpuntNameImg.value = '';
+    inputUrl.value = ''
 })
+
+//Обработчик добавления элемента
+function addNewElement (evt) {
+    evt.preventDefault();
+    inpuntNameImg.value;
+    inputUrl.value;
+
+    const newObject = {
+        name: inpuntNameImg.value,
+        link: inputUrl.value
+    };
+
+    if(initialCards.length < 6) {
+        initialCards.unshift(newObject)
+    } else {
+        initialCards.unshift(newObject);
+        initialCards.pop();
+    }
+    closeSecondTemplate();
+    createArticle()
+}
+
+const createButton = addTemplate.querySelector('.popup__button');
+createButton.addEventListener('click', addNewElement)
 
 //Создание слушателя "лайков"
-const likeButton = document.querySelectorAll('.article__like');
-likeButton.forEach(item => {
-    item.addEventListener('click', (event) => {
-        const eventTarget = event.target;
-        eventTarget.classList.toggle('article__like_active');
+function addLike(event) {
+    const eventTarget = event.target;
+    eventTarget.classList.toggle('article__like_active');
+}
+
+function likeButton() {
+    document.querySelectorAll('.article__like').forEach(function(item) {
+        item.addEventListener('click', addLike)
     })
-})
+}
 
 //Создание слушаетля удаления
-function addDelete (event) {
+function addDelete(event) {
     const deleteTarget = event.target.parentElement.getAttribute('id');
     initialCards.splice(deleteTarget, 1);
     createArticle()
 }
-function addEventBasket () {
+function addEventBasket() {
     document.querySelectorAll('.article__basket').forEach(function(item) {
         item.addEventListener('click', addDelete);
     })
