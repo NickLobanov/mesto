@@ -32,7 +32,8 @@ function createArticle() {
     sectionElements.innerHTML = ' ';
     initialCards.forEach(newArticle);
     addEventBasket();
-    likeButton()
+    likeButton();
+    addEventImage();
 }
 createArticle()
 
@@ -178,4 +179,35 @@ function addEventBasket() {
     document.querySelectorAll('.article__basket').forEach(function(item) {
         item.addEventListener('click', addDelete);
     })
+}
+
+
+//Создание  открытия popup с картинкой 
+const imageOpenPopup = document.querySelector('#popup__image').content;
+function openImage(event) {
+    const imageTemplate = imageOpenPopup.cloneNode(true);
+    const imageTarget = event.target.parentElement.getAttribute('id');
+    imageTemplate.querySelector('.popup').classList.add('popup_opened');
+    imageTemplate.querySelector('.popup__close-icon').classList.add('delete');
+    imageTemplate.querySelector('.open-popup__image').src = initialCards[imageTarget].link;
+    imageTemplate.querySelector('.open-popup__text').textContent = initialCards[imageTarget].name;
+    wrapper.append(imageTemplate);
+    addEventClose()
+}
+
+function addEventImage() {
+    document.querySelectorAll('.article__foto').forEach(item => {
+        item.addEventListener('click', openImage);
+    })
+} 
+
+//Закрытие popup с картинкой
+function imageClose () {
+    const imageElement = document.querySelector('.popup_opened');
+    imageElement.remove()
+}
+
+function addEventClose () {
+    const closeImage = document.querySelector('.delete');
+    closeImage.addEventListener('click', imageClose);
 }
