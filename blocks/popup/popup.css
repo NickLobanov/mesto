@@ -6,7 +6,6 @@
 
 
 .popup {
-    display: none;
     width: 100%;
     min-height: 100%;
     background-color: rgba(00, 00, 00, .5);
@@ -15,7 +14,9 @@
     left: 0;
     z-index: 5;
     overflow: hidden;
-}
-
+    visibility: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0s linear 0.3s;
 
 

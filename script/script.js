@@ -33,7 +33,7 @@ function createArticle() {
     initialCards.forEach(newArticle);
     addEventBasket();
     likeButton();
-    addEventImage();
+    addEventImage()
 }
 createArticle()
 
@@ -184,15 +184,22 @@ function addEventBasket() {
 
 //Создание  открытия popup с картинкой 
 const imageOpenPopup = document.querySelector('#popup__image').content;
-function openImage(event) {
+function createTemplate() {
     const imageTemplate = imageOpenPopup.cloneNode(true);
-    const imageTarget = event.target.parentElement.getAttribute('id');
-    imageTemplate.querySelector('.popup').classList.add('popup_opened');
+    imageTemplate.querySelector('.popup').classList.add('open');
     imageTemplate.querySelector('.popup__close-icon').classList.add('delete');
-    imageTemplate.querySelector('.open-popup__image').src = initialCards[imageTarget].link;
-    imageTemplate.querySelector('.open-popup__text').textContent = initialCards[imageTarget].name;
     wrapper.append(imageTemplate);
     addEventClose()
+}
+createTemplate();
+
+
+function openImage (event) {
+    const imageIndex = event.target.parentElement.getAttribute('id');
+    document.querySelector('.open-popup__image').src = initialCards[imageIndex].link;
+    document.querySelector('.open-popup__text').textContent = initialCards[imageIndex].name;
+    document.querySelector('.open').classList.add('popup_opened');
+
 }
 
 function addEventImage() {
@@ -204,7 +211,7 @@ function addEventImage() {
 //Закрытие popup с картинкой
 function imageClose () {
     const imageElement = document.querySelector('.popup_opened');
-    imageElement.remove()
+    imageElement.classList.remove('popup_opened')
 }
 
 function addEventClose () {
