@@ -5,8 +5,28 @@
 .open-popup {
     text-align: center;
     position: relative;
-    padding-top: 5%;
     margin: 0 auto;
+    margin-top: 5%;
     max-width: 75vw;
     max-height: 75vh;
 }
+
+@media screen and (max-width: 1000px) {
+    .open-popup {
+        margin-top: 10%;
+    }
+}
+
+
+@media screen and (max-width: 650px) {
+    .open-popup {
+        margin-top: 20%;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .open-popup {
+        margin-top: 30%;
+    }
+}
+

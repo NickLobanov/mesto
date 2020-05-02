@@ -1,4 +1,30 @@
 .open-popup__wrap {
-    display: inline-block;
+    display: flex;
     position: relative;
+    max-height: 75vh;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 800px) {
+    .open-popup__wrap {
+        height: 65vh;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .open-popup__wrap {
+        height: 73vh;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .open-popup__wrap {
+        height: 65vh;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .open-popup__wrap {
+        height: 55vh;
+    }
 }

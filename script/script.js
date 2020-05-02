@@ -70,7 +70,6 @@ function openImage (event) {
     document.querySelector('.open-popup__image').src = initialCards[imageIndex].link;
     document.querySelector('.open-popup__text').textContent = initialCards[imageIndex].name;
     document.querySelector('.open').classList.add('popup_opened');
-
 }
 
 function addEventImage() {
