@@ -27,6 +27,9 @@ const initialCards = [
 
 const articletemplate = document.querySelector('#article__template').content;
 const sectionElements = document.querySelector('.elements')
+const wrapper = document.querySelector('.wrapper')
+let profileName = document.querySelector('.profile__name');
+let profileDesctiption = document.querySelector('.profile__description');
 
 function addCard (item) {
     const newArticle = articletemplate.cloneNode(true);
@@ -50,4 +53,83 @@ sectionElements.addEventListener('click', evt => {
     if (evt.target.classList.contains('article__basket')) {
        evt.target.parentElement.remove()
     }
+})
+
+//Функция создания popup редактирования
+const popupTemplate = document.querySelector('#popup__template').content
+function createPopupEdit () {
+    const popupEdit = popupTemplate.cloneNode(true);
+    popupEdit.querySelector('.popup').classList.add('popup__edit');
+    popupEdit.querySelector('.popup__title').textContent='Редактировать профиль';
+    popupEdit.querySelector('.popup__button').textContent='Сохранить';
+    wrapper.append(popupEdit);
+}
+createPopupEdit();
+
+//Функция создания popup добавления
+function createPopupAddition () {
+    const popupEdit = popupTemplate.cloneNode(true);
+    popupEdit.querySelector('.popup').classList.add('popup__add');
+    popupEdit.querySelector('.popup__title').textContent='Новое место';
+    popupEdit.querySelector('.popup__button').textContent='Создать';
+    popupEdit.querySelector('.popup__input_type_title').setAttribute('placeholder', 'Название');
+    popupEdit.querySelector('.popup__input_type_description').setAttribute('placeholder', 'Ссылка на картинку');
+    wrapper.append(popupEdit);
+}
+createPopupAddition();
+
+//Находим поля формы 
+const popupEdit = document.querySelector('.popup__edit');
+let popupEditName = popupEdit.querySelector('.popup__input_type_title');
+let popupEditDescription = popupEdit.querySelector('.popup__input_type_description');
+
+//Добавление слушателей для кнопок редактирования и добавления
+document.querySelector('.profile__edit').addEventListener('click', () => {
+    document.querySelector('.popup__edit').classList.add('popup_opened');
+    popupEditName.value = profileName.textContent;
+    popupEditDescription.value = profileDesctiption.textContent;
+});
+
+document.querySelector('.profile__button').addEventListener('click', () => {
+    document.querySelector('.popup__add').classList.add('popup_opened');
+});
+
+//Обработчик формы edit 
+function popupEditHandler (evt) {
+    evt.preventDefault();
+    profileName.textContent = popupEditName.value;
+    profileDesctiption.textContent = popupEditDescription.value;
+}
+
+//Находим поля формы add
+const popupAdd = document.querySelector('.popup__add');
+let popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
+let popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
+
+//Обработчик формы add
+function popupAdditionHendler (evt) {
+    evt.preventDefault();
+    const newArticle = articletemplate.cloneNode(true);
+    newArticle.querySelector('.article__foto').src = popupAdditionUrl;
+    newArticle.querySelector('.article__foto').alt = popupAdditionTitle;
+    newArticle.querySelector('.article__name').textContent = popupAdditionTitle;
+    sectionElements.prepend(newArticle);
+}
+
+//Закрытие popup 
+function closePopup (evt) {
+    if (evt.target.classList.contains('popup__close-icon') || (evt.target.classList.contains('popup'))) {
+        evt.target.closest('.popup').classList.remove('popup_opened')
+    }
+    if (evt.target.classList.contains('popup__button') && evt.target.closest('.popup__edit')) {
+        popupEditHandler(evt);
+        evt.target.closest('.popup').classList.remove('popup_opened');
+    }
+    if (evt.target.classList.contains('popup__button') && evt.target.closest('.popup__add')) {
+        popupAdditionHendler(evt);
+        evt.target.closest('.popup').classList.remove('popup_opened');
+    }
+}
+document.querySelectorAll('.popup').forEach(item => {
+    item.addEventListener('click', closePopup)
 })
