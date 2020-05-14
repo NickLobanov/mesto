@@ -1,0 +1,13 @@
+.popup__input-error {
+    width: 83%;
+    margin: 0 auto;
+    margin-bottom: 13px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    opacity: 0;
+}
+
+.popup__input-error:last-of-type {
+    margin-bottom: 32px;
+}

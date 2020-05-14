@@ -74,24 +74,32 @@ function createPopupAddition () {
     popupEdit.querySelector('.popup__button').textContent='Создать';
     popupEdit.querySelector('.popup__input_type_title').setAttribute('placeholder', 'Название');
     popupEdit.querySelector('.popup__input_type_description').setAttribute('placeholder', 'Ссылка на картинку');
+    popupEdit.querySelector('.popup__input_type_description').setAttribute('type', 'url')
     wrapper.append(popupEdit);
 }
 createPopupAddition();
 
-//Находим поля формы 
+//Находим поля формы edit
 const popupEdit = document.querySelector('.popup__edit');
-let popupEditName = popupEdit.querySelector('.popup__input_type_title');
-let popupEditDescription = popupEdit.querySelector('.popup__input_type_description');
+const popupEditName = popupEdit.querySelector('.popup__input_type_title');
+const popupEditDescription = popupEdit.querySelector('.popup__input_type_description');
+
+//Находим поля формы add
+const popupAdd = document.querySelector('.popup__add');
+let popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
+let popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
 
 //Добавление слушателей для кнопок редактирования и добавления
 document.querySelector('.profile__edit').addEventListener('click', () => {
-    document.querySelector('.popup__edit').classList.add('popup_opened');
+    popupEdit.classList.add('popup_opened');
     popupEditName.value = profileName.textContent;
     popupEditDescription.value = profileDesctiption.textContent;
 });
 
 document.querySelector('.profile__button').addEventListener('click', () => {
-    document.querySelector('.popup__add').classList.add('popup_opened');
+    popupAdd.classList.add('popup_opened');
+    popupAdditionTitle.value = '';
+    popupEditDescription.value = '';
 });
 
 //Обработчик формы edit 
@@ -100,11 +108,6 @@ function popupEditHandler (evt) {
     profileName.textContent = popupEditName.value;
     profileDesctiption.textContent = popupEditDescription.value;
 }
-
-//Находим поля формы add
-const popupAdd = document.querySelector('.popup__add');
-let popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
-let popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
 
 //Обработчик формы add
 function popupAdditionHendler (evt) {
