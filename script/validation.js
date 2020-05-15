@@ -1,32 +1,56 @@
-//Валидация формы popup edit
-const formPopupEdit = popupEdit.querySelector('.popup__form');
-const inputTitleError = formPopupEdit.querySelector(`#${popupEditName.id}-error`);
-popupEditName.setAttribute('minlength', '2')
+const formEdit = document.querySelector('.popup__edit');
+const inputName = formEdit.querySelector('.popup__input_type_title');
+const inputJob = formEdit.querySelector('.popup__input_type_description');
+inputName.setAttribute('minlength', '2');
+inputName.setAttribute('maxlength', '40');
+inputJob.setAttribute('minlength', '2');
+inputJob.setAttribute('maxlength', '200');
 
 // Функция, которая добавляет класс с ошибкой
-const showInputError = (element, errorMessage) => {
-  element.classList.add('popup__input_type_error');
-  inputTitleError.textContent = errorMessage;
-  inputTitleError.classList.add('popup__input-error_type_active');
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  inputElement.classList.add('popup__input_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('popup__input-error_type_active');
 };
 
 // Функция, которая удаляет класс с ошибкой
-const hideInputError = (element) => {
-  element.classList.remove('popup__input_type_error');
-  inputTitleError.textContent = '';
-  inputTitleError.classList.remove('popup__input-error_type_active')
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  inputElement.classList.remove('popup__input_type_error');
+  errorElement.textContent = '';
+  errorElement.classList.remove('popup__input-error_type_active')
 };
 
 // Функция, которая проверяет валидность поля
-const isValid = () => {
-  if (!popupEditName.validity.valid) {
+const isValid = (formElement, inputElement) => {
+  if (!inputElement.validity.valid) {
     // Если поле не проходит валидацию, покажем ошибку
-    showInputError(popupEditName, popupEditName.validationMessage);
+    showInputError(formElement, inputElement, inputElement.validationMessage);
   } else {
     // Если проходит, скроем
-    hideInputError(popupEditName);
+    hideInputError(formElement, inputElement);
   }
 };
  
-// Вызовем функцию isValid на каждый ввод символа
-popupEditName.addEventListener('input', isValid);
+// Добавление обработчиков всем полям формы
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', () => {
+      isValid(formElement, inputElement)
+    });
+  });
+}
+
+// Добавление обработчиков всем формам
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll('.popup__form'));
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    })
+    setEventListeners(formElement);
+  })
+}
+enableValidation()

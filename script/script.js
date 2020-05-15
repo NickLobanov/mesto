@@ -26,6 +26,7 @@ const initialCards = [
 ];
 
 const articletemplate = document.querySelector('#article__template').content;
+const popupImage = document.querySelector('#popup__image').content;
 const sectionElements = document.querySelector('.elements')
 const wrapper = document.querySelector('.wrapper')
 let profileName = document.querySelector('.profile__name');
@@ -45,6 +46,23 @@ function createArticle() {
 }
 createArticle()
 
+//Функция создания popup image
+function createPopupImage () {
+    const createPopupImage = popupImage.cloneNode(true);
+    createPopupImage.querySelector('.popup').classList.add('popup__image');
+    wrapper.append(createPopupImage);
+}
+createPopupImage();
+
+//Функция открытия popup image
+function openPopupImage (evt) {
+    const imageSrc = evt.target.getAttribute('src');
+    const imageAlt = evt.target.getAttribute('alt');
+    document.querySelector('.open-popup__image').setAttribute('src', imageSrc);
+    document.querySelector('.open-popup__image').setAttribute('alt', imageAlt);
+    document.querySelector('.open-popup__text').textContent = imageAlt;
+}
+
 //Обработчик лайков и удалений
 sectionElements.addEventListener('click', evt => {
     if (evt.target.classList.contains('article__like')) {
@@ -52,6 +70,10 @@ sectionElements.addEventListener('click', evt => {
     }
     if (evt.target.classList.contains('article__basket')) {
        evt.target.parentElement.remove()
+    }
+    if (evt.target.classList.contains('article__foto')) {
+        openPopupImage(evt);
+        document.querySelector('.popup__image').classList.add('popup_opened');
     }
 })
 
@@ -136,3 +158,5 @@ function closePopup (evt) {
 document.querySelectorAll('.popup').forEach(item => {
     item.addEventListener('click', closePopup)
 })
+
+
