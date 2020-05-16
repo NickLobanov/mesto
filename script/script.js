@@ -155,8 +155,15 @@ function closePopup (evt) {
         evt.target.closest('.popup').classList.remove('popup_opened');
     }
 }
+
 document.querySelectorAll('.popup').forEach(item => {
-    item.addEventListener('click', closePopup)
+    item.addEventListener('click', closePopup);
 })
 
-
+//закрытие popup клавишей Esc
+function closePopupEsc (evt) {
+    if (evt.key === 'Escape') {
+        document.querySelector('.popup_opened').classList.remove('popup_opened')
+    }
+}
+document.addEventListener('keyup', closePopupEsc)

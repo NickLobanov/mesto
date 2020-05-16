@@ -36,9 +36,12 @@ const isValid = (formElement, inputElement) => {
 // Добавление обработчиков всем полям формы
 const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  const buttonElement = formElement.querySelector('.popup__button');
+  buttonState (inputList, buttonElement);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
-      isValid(formElement, inputElement)
+      isValid(formElement, inputElement);
+      buttonState(inputList, buttonElement);
     });
   });
 }
@@ -53,4 +56,24 @@ const enableValidation = () => {
     setEventListeners(formElement);
   })
 }
-enableValidation()
+enableValidation();
+
+// функция проверки невалидных полей
+function hasInputValidity (inputList) {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  })
+}
+
+//функция состояния кнопки
+
+function buttonState (inputList, buttonElement) {
+  if (hasInputValidity(inputList)) {
+    buttonElement.setAttribute('disabled', 'true');
+    buttonElement.classList.add('popup__button_inactive');
+
+  } else {
+    buttonElement.removeAttribute('disabled');
+    buttonElement.classList.remove('popup__button_inactive');
+  }
+}
