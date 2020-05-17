@@ -5,7 +5,7 @@
 @import url(__close-icon/popup__close-icon.css);
 @import url(__input/_type_error/popup__input_type_error.css);
 @import url(__input-error/popup__input-error.css);
-
+@import url(__input-error/_type/popup__input-error_type_active.css);
 
 .popup {
     width: 100%;
