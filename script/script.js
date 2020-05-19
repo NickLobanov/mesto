@@ -46,11 +46,12 @@ function createArticle() {
 createArticle()
 
 //Функция открытия popup image
+const popupImage = document.querySelector('.open-popup__image');
 function openPopupImage (evt) {
     const imageSrc = evt.target.getAttribute('src');
     const imageAlt = evt.target.getAttribute('alt');
-    document.querySelector('.open-popup__image').setAttribute('src', imageSrc);
-    document.querySelector('.open-popup__image').setAttribute('alt', imageAlt);
+    popupImage.setAttribute('src', imageSrc);
+    popupImage.setAttribute('alt', imageAlt);
     document.querySelector('.open-popup__text').textContent = imageAlt;
 }
 
