@@ -26,11 +26,10 @@ const initialCards = [
 ];
 
 const articletemplate = document.querySelector('#article__template').content;
-const popupImage = document.querySelector('#popup__image').content;
 const sectionElements = document.querySelector('.elements')
 const wrapper = document.querySelector('.wrapper')
-let profileName = document.querySelector('.profile__name');
-let profileDesctiption = document.querySelector('.profile__description');
+const profileName = document.querySelector('.profile__name');
+const profileDesctiption = document.querySelector('.profile__description');
 
 function addCard (item) {
     const newArticle = articletemplate.cloneNode(true);
@@ -45,14 +44,6 @@ function createArticle() {
     initialCards.forEach(addCard);
 }
 createArticle()
-
-//Функция создания popup image
-function createPopupImage () {
-    const createPopupImage = popupImage.cloneNode(true);
-    createPopupImage.querySelector('.popup').classList.add('popup__image');
-    wrapper.append(createPopupImage);
-}
-createPopupImage();
 
 //Функция открытия popup image
 function openPopupImage (evt) {
@@ -77,30 +68,6 @@ sectionElements.addEventListener('click', evt => {
     }
 })
 
-//Функция создания popup редактирования
-const popupTemplate = document.querySelector('#popup__template').content
-function createPopupEdit () {
-    const popupEdit = popupTemplate.cloneNode(true);
-    popupEdit.querySelector('.popup').classList.add('popup__edit');
-    popupEdit.querySelector('.popup__title').textContent='Редактировать профиль';
-    popupEdit.querySelector('.popup__button').textContent='Сохранить';
-    wrapper.append(popupEdit);
-}
-createPopupEdit();
-
-//Функция создания popup добавления
-function createPopupAddition () {
-    const popupEdit = popupTemplate.cloneNode(true);
-    popupEdit.querySelector('.popup').classList.add('popup__add');
-    popupEdit.querySelector('.popup__title').textContent='Новое место';
-    popupEdit.querySelector('.popup__button').textContent='Создать';
-    popupEdit.querySelector('.popup__input_type_title').setAttribute('placeholder', 'Название');
-    popupEdit.querySelector('.popup__input_type_description').setAttribute('placeholder', 'Ссылка на картинку');
-    popupEdit.querySelector('.popup__input_type_description').setAttribute('type', 'url')
-    wrapper.append(popupEdit);
-}
-createPopupAddition();
-
 //Находим поля формы edit
 const popupEdit = document.querySelector('.popup__edit');
 const popupEditName = popupEdit.querySelector('.popup__input_type_title');
@@ -108,8 +75,8 @@ const popupEditDescription = popupEdit.querySelector('.popup__input_type_descrip
 
 //Находим поля формы add
 const popupAdd = document.querySelector('.popup__add');
-let popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
-let popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
+const popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
+const popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
 
 //Добавление слушателей для кнопок редактирования и добавления
 document.querySelector('.profile__edit').addEventListener('click', () => {
@@ -121,7 +88,7 @@ document.querySelector('.profile__edit').addEventListener('click', () => {
 document.querySelector('.profile__button').addEventListener('click', () => {
     popupAdd.classList.add('popup_opened');
     popupAdditionTitle.value = '';
-    popupEditDescription.value = '';
+    popupAdditionUrl.value = '';
 });
 
 //Обработчик формы edit 
@@ -135,10 +102,10 @@ function popupEditHandler (evt) {
 function popupAdditionHendler (evt) {
     evt.preventDefault();
     const newArticle = articletemplate.cloneNode(true);
-    newArticle.querySelector('.article__foto').src = popupAdditionUrl;
-    newArticle.querySelector('.article__foto').alt = popupAdditionTitle;
-    newArticle.querySelector('.article__name').textContent = popupAdditionTitle;
-    sectionElements.prepend(newArticle);
+    newArticle.querySelector('.article__foto').src = popupAdditionUrl.value;
+    newArticle.querySelector('.article__foto').alt = popupAdditionTitle.value;
+    newArticle.querySelector('.article__name').textContent = popupAdditionTitle.value;
+    return newArticle;
 }
 
 //Закрытие popup 
@@ -151,7 +118,7 @@ function closePopup (evt) {
         evt.target.closest('.popup').classList.remove('popup_opened');
     }
     if (evt.target.classList.contains('popup__button') && evt.target.closest('.popup__add')) {
-        popupAdditionHendler(evt);
+        sectionElements.prepend(popupAdditionHendler(evt));
         evt.target.closest('.popup').classList.remove('popup_opened');
     }
 }

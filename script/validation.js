@@ -1,14 +1,3 @@
-const inputNameEdit = popupEdit.querySelector('.popup__input_type_title');
-const inputJobEdit = popupEdit.querySelector('.popup__input_type_description');
-inputNameEdit.setAttribute('minlength', '2');
-inputNameEdit.setAttribute('pattern', '[A-Za-zа-яА-Я -]{1,40}')
-inputJobEdit.setAttribute('minlength', '2');
-inputJobEdit.setAttribute('maxlength', '200');
-
-const inputTitleAdd = popupAdd.querySelector('.popup__input_type_title');
-inputTitleAdd.setAttribute('maxlength', '30');
-inputTitleAdd.setAttribute('minlength', '2');
-
 // Функция, которая добавляет класс с ошибкой
 const showInputError = (formElement, inputElement, errorMessage, objectForm) => {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
@@ -36,6 +25,26 @@ const isValid = (formElement, inputElement, objectForm) => {
   }
 };
  
+// функция проверки невалидных полей
+function hasInputValidity (inputList) {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  })
+}
+
+//функция состояния кнопки
+
+function buttonState (inputList, buttonElement, objectForm) {
+  if (hasInputValidity(inputList)) {
+    buttonElement.setAttribute('disabled', 'true');
+    buttonElement.classList.add(objectForm.inactiveButtonClass);
+
+  } else {
+    buttonElement.removeAttribute('disabled');
+    buttonElement.classList.remove(objectForm.inactiveButtonClass);
+  }
+}
+
 // Добавление обработчиков всем полям формы
 const setEventListeners = (formElement, objectForm) => {
   const inputList = Array.from(formElement.querySelectorAll(objectForm.inputSelector));
@@ -68,23 +77,5 @@ enableValidation({
   errorClass: 'popup__input-error_type_active'
 });
 
-// функция проверки невалидных полей
-function hasInputValidity (inputList) {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  })
-}
 
-//функция состояния кнопки
-
-function buttonState (inputList, buttonElement, objectForm) {
-  if (hasInputValidity(inputList)) {
-    buttonElement.setAttribute('disabled', 'true');
-    buttonElement.classList.add(objectForm.inactiveButtonClass);
-
-  } else {
-    buttonElement.removeAttribute('disabled');
-    buttonElement.classList.remove(objectForm.inactiveButtonClass);
-  }
-}
 

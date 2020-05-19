@@ -30,6 +30,40 @@
         <footer class="footer">
             <p class="footer__copy">&copy; 2020 Mesto Russia</p>
         </footer>
+         
+        <div class="popup popup__edit">
+            <form action="" class="popup__container popup__form" method="POST" novalidate>
+                <h2 class="popup__title">Редактировать профиль</h2>
+                <input id="form__title"type="text" class="popup__input popup__input_type_title" value="" required maxlength="40" minlength="2" pattern="[A-Za-zа-яА-Я -]{1,40}">
+                <span id="form__title-error" class="popup__input-error"></span>
+                <input type="text" id="form__description" class="popup__input popup__input_type_description" value="" required maxlength="200" minlength="2">
+                <span id="form__description-error" class="popup__input-error"></span>
+                <button class="popup__button" type="submit">Сохранить</button>
+                <button class="popup__close-icon" type="button"></button>
+            </form>
+        </div>
+
+        <div class="popup popup__add">
+            <form action="" class="popup__container popup__form" method="POST" novalidate>
+                <h2 class="popup__title">Новое место</h2>
+                <input id="form__title"type="text" class="popup__input popup__input_type_title" value="" placeholder="Название" required maxlength="30" minlength="1">
+                <span id="form__title-error" class="popup__input-error"></span>
+                <input type="url" id="form__description" class="popup__input popup__input_type_description" value="" placeholder="Ссылка на картинку" required>
+                <span id="form__description-error" class="popup__input-error"></span>
+                <button class="popup__button" type="submit">Создать</button>
+                <button class="popup__close-icon" type="button"></button>
+            </form>
+        </div>
+    
+        <div class="popup popup__image">
+            <div class="open-popup">
+                <div class="open-popup__wrap">
+                    <img src="" alt="" class="open-popup__image">
+                </div>
+                <p class="open-popup__text"></p>
+                <button class="popup__close-icon test" type="button"></button>
+            </div>  
+        </div>
 
         <template id="article__template">
             <div class="article">
@@ -41,32 +75,7 @@
                 </div>
             </div>
          </template>
-
-         <template id="popup__template">
-            <div class="popup">
-                <form action="" class="popup__container popup__form" method="POST" novalidate>
-                    <h2 class="popup__title"></h2>
-                    <input id="form__title"type="text" class="popup__input popup__input_type_title" value="" required>
-                    <span id="form__title-error" class="popup__input-error"></span>
-                    <input type="text" id="form__description" class="popup__input popup__input_type_description" value="" required>
-                    <span id="form__description-error" class="popup__input-error"></span>
-                    <button class="popup__button" type="submit"></button>
-                    <button class="popup__close-icon" type="button"></button>
-                </form>
-            </div>
-        </template>
-
-        <template id="popup__image">
-            <div class="popup">
-                <div class="open-popup">
-                    <div class="open-popup__wrap">
-                        <img src="" alt="" class="open-popup__image">
-                    </div>
-                    <p class="open-popup__text"></p>
-                    <button class="popup__close-icon test" type="button"></button>
-                </div>  
-            </div>
-        </template>
+        
     </div>
     <script src="script/script.js"></script>
     <script src="script/validation.js"></script>
