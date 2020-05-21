@@ -5,8 +5,7 @@
 .open-popup {
     text-align: center;
     position: relative;
-    margin: 0 auto;
-    margin-top: 5%;
+    margin: auto;
     max-width: 75vw;
     max-height: 75vh;
 }

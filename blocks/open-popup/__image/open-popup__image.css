@@ -1,5 +1,6 @@
 .open-popup__image {
-    width: 100%;
-    object-fit: cover;
+    margin-bottom: 10px;
+    max-width: 75vw;
+    max-height: 75vh;
 }
 

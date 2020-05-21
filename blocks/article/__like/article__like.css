@@ -9,3 +9,7 @@
     background-color: transparent;
     border: none;
 }
+
+.article__like:hover {
+    opacity: 0.6;
+}

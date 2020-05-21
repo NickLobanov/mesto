@@ -27,14 +27,25 @@ const initialCards = [
 
 const articletemplate = document.querySelector('#article__template').content;
 const sectionElements = document.querySelector('.elements')
-const wrapper = document.querySelector('.wrapper')
 const profileName = document.querySelector('.profile__name');
 const profileDesctiption = document.querySelector('.profile__description');
 
+//Находим поля формы edit
+const popupEdit = document.querySelector('.popup__edit');
+const popupEditName = popupEdit.querySelector('.popup__input_type_title');
+const popupEditDescription = popupEdit.querySelector('.popup__input_type_description');
+
+//Находим поля формы add
+const popupAdd = document.querySelector('.popup__add');
+const popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
+const popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
+
+
 function addCard (item) {
     const newArticle = articletemplate.cloneNode(true);
-    newArticle.querySelector('.article__foto').src = item.link;
-    newArticle.querySelector('.article__foto').alt = item.name;
+    const articleFoto = newArticle.querySelector('.article__foto');
+    articleFoto.src = item.link;
+    articleFoto.alt = item.name;
     newArticle.querySelector('.article__name').textContent = item.name;
     sectionElements.append(newArticle);
 }
@@ -68,16 +79,6 @@ sectionElements.addEventListener('click', evt => {
         document.querySelector('.popup__image').classList.add('popup_opened');
     }
 })
-
-//Находим поля формы edit
-const popupEdit = document.querySelector('.popup__edit');
-const popupEditName = popupEdit.querySelector('.popup__input_type_title');
-const popupEditDescription = popupEdit.querySelector('.popup__input_type_description');
-
-//Находим поля формы add
-const popupAdd = document.querySelector('.popup__add');
-const popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
-const popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
 
 //Добавление слушателей для кнопок редактирования и добавления
 document.querySelector('.profile__edit').addEventListener('click', () => {
