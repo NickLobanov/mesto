@@ -125,6 +125,16 @@ function popupAdditionHendler (evt) {
     sectionElements.prepend(collectCard(popupAdditionTitle.value, popupAdditionUrl.value))
 }
 
+//обнуление ошибок формы 
+function clearError () {
+    document.querySelectorAll('.popup__input-error').forEach(item => {
+        item.classList.remove('popup__input-error_type_active')
+    })
+    document.querySelectorAll('.popup__input').forEach(item => {
+        item.classList.remove('popup__input_type_error')
+    })
+}
+
 //Закрытие popup 
 function closePopup (evt) {
     evt.target.closest('.popup').classList.remove('popup_opened')
@@ -132,10 +142,12 @@ function closePopup (evt) {
 function definingPopup (evt) {
     if (evt.target.classList.contains('popup__close-icon') || (evt.target.classList.contains('popup'))) {
         closePopup(evt);
+        clearError();
     }
     if (evt.target.classList.contains('popup__button') && evt.target.closest('.popup__edit')) {
         popupEditHandler(evt);
         closePopup(evt);
+
     }
     if (evt.target.classList.contains('popup__button') && evt.target.closest('.popup__add')) {
         popupAdditionHendler(evt);
