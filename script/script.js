@@ -29,6 +29,9 @@ const articletemplate = document.querySelector('#article__template').content;
 const sectionElements = document.querySelector('.elements')
 const profileName = document.querySelector('.profile__name');
 const profileDesctiption = document.querySelector('.profile__description');
+const elementImage = document.querySelector('.open-popup__image');
+const popupImage = document.querySelector('.popup__image');
+
 
 //Находим поля формы edit
 const popupEdit = document.querySelector('.popup__edit');
@@ -70,15 +73,19 @@ function closePopupEsc (evt) {
     }
 }
 
+//функция открытия popupов
+function openPopup(popup) {
+   popup.classList.add('popup_opened')
+   document.addEventListener('keyup', closePopupEsc)
+}
+
 //Функция открытия popup image
-const popupImage = document.querySelector('.open-popup__image');
-function openPopupImage (evt) {
+function colectionPopupImage (evt) {
     const imageSrc = evt.target.getAttribute('src');
     const imageAlt = evt.target.getAttribute('alt');
-    popupImage.setAttribute('src', imageSrc);
-    popupImage.setAttribute('alt', imageAlt);
+    elementImage.setAttribute('src', imageSrc);
+    elementImage.setAttribute('alt', imageAlt);
     document.querySelector('.open-popup__text').textContent = imageAlt;
-    document.addEventListener('keyup', closePopupEsc)
 }
 
 //Обработчик лайков и удалений
@@ -90,25 +97,24 @@ sectionElements.addEventListener('click', evt => {
        evt.target.parentElement.remove()
     }
     if (evt.target.classList.contains('article__foto')) {
-        openPopupImage(evt);
-        document.querySelector('.popup__image').classList.add('popup_opened');
+        colectionPopupImage(evt);
+        openPopup(popupImage);
+        
     }
 })
 
 //Добавление слушателей для кнопок редактирования и добавления
 function eventEditButton () {
-    popupEdit.classList.add('popup_opened');
+    openPopup(popupEdit);
     popupEditName.value = profileName.textContent;
     popupEditDescription.value = profileDesctiption.textContent;
-    document.addEventListener('keyup', closePopupEsc)
 }
 document.querySelector('.profile__edit').addEventListener('click', eventEditButton);
 
 function eventAddButton () {
-    popupAdd.classList.add('popup_opened');
+    openPopup(popupAdd);
     popupAdditionTitle.value = '';
     popupAdditionUrl.value = '';
-    document.addEventListener('keyup', closePopupEsc)
 }
 document.querySelector('.profile__button').addEventListener('click', eventAddButton);
 
@@ -128,30 +134,38 @@ function popupAdditionHendler (evt) {
 //обнуление ошибок формы 
 function clearError () {
     document.querySelectorAll('.popup__input-error').forEach(item => {
-        item.classList.remove('popup__input-error_type_active')
+        item.classList.remove('popup__input-error_type_active');
+        item.textContent = ' ';
     })
     document.querySelectorAll('.popup__input').forEach(item => {
-        item.classList.remove('popup__input_type_error')
+        item.classList.remove('popup__input_type_error');
+        item.textContent = ' ';
     })
+    document.querySelectorAll('.popup__button').forEach(item => {
+        item.setAttribute('disabled', 'true');
+        item.classList.add('popup__button_disabled');
+    })
+    
 }
 
 //Закрытие popup 
-function closePopup (evt) {
-    evt.target.closest('.popup').classList.remove('popup_opened')
+function closePopup (popupElement) {
+    popupElement.classList.remove('popup_opened');
+    document.removeEventListener('keyup', closePopupEsc);
+    clearError();
 }
+
 function definingPopup (evt) {
     if (evt.target.classList.contains('popup__close-icon') || (evt.target.classList.contains('popup'))) {
-        closePopup(evt);
-        clearError();
+        closePopup(evt.currentTarget);
     }
     if (evt.target.classList.contains('popup__button') && evt.target.closest('.popup__edit')) {
         popupEditHandler(evt);
-        closePopup(evt);
-
+        closePopup(evt.currentTarget);
     }
     if (evt.target.classList.contains('popup__button') && evt.target.closest('.popup__add')) {
         popupAdditionHendler(evt);
-        closePopup(evt);
+        closePopup(evt.currentTarget);
     }
 }
 
