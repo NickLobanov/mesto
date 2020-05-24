@@ -30,16 +30,19 @@ const sectionElements = document.querySelector('.elements')
 const profileName = document.querySelector('.profile__name');
 const profileDesctiption = document.querySelector('.profile__description');
 const elementImage = document.querySelector('.open-popup__image');
+const imageText = document.querySelector('.open-popup__text');
 const popupImage = document.querySelector('.popup__image');
 
 
 //Находим поля формы edit
 const popupEdit = document.querySelector('.popup__edit');
+const formEdit = popupEdit.querySelector('.popup__form');
 const popupEditName = popupEdit.querySelector('.popup__input_type_title');
 const popupEditDescription = popupEdit.querySelector('.popup__input_type_description');
 
 //Находим поля формы add
 const popupAdd = document.querySelector('.popup__add');
+const formAdd = popupAdd.querySelector('.popup__form');
 const popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
 const popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
 
@@ -65,11 +68,28 @@ function createArticle() {
 }
 createArticle()
 
+//обнуление ошибок формы 
+function clearError (objectElements) {
+    const allForm = Array.from(document.querySelectorAll(objectElements.formSelector));
+    allForm.forEach(formItem => {
+        const allInput = Array.from(formItem.querySelectorAll(objectElements.inputSelector));
+        allInput.forEach(inputItem => {
+            hideInputError(formItem, inputItem, objectElements)
+        })
+    })
+}
+
+//Закрытие popup 
+function closePopup (popupElement) {
+    popupElement.classList.remove('popup_opened');
+    document.removeEventListener('keyup', closePopupEsc);
+    clearError(objectElements);
+}
+
 //закрытие popup клавишей Esc
 function closePopupEsc (evt) {
     if (evt.key === 'Escape') {
-        document.querySelector('.popup_opened').classList.remove('popup_opened')
-        document.removeEventListener('keyup', closePopupEsc)
+        closePopup(document.querySelector('.popup_opened'))
     }
 }
 
@@ -85,7 +105,7 @@ function colectionPopupImage (evt) {
     const imageAlt = evt.target.getAttribute('alt');
     elementImage.setAttribute('src', imageSrc);
     elementImage.setAttribute('alt', imageAlt);
-    document.querySelector('.open-popup__text').textContent = imageAlt;
+    imageText.textContent = imageAlt;
 }
 
 //Обработчик лайков и удалений
@@ -120,51 +140,17 @@ document.querySelector('.profile__button').addEventListener('click', eventAddBut
 
 //Обработчик формы edit 
 function popupEditHandler (evt) {
-    evt.preventDefault();
     profileName.textContent = popupEditName.value;
     profileDesctiption.textContent = popupEditDescription.value;
 }
 
 //Обработчик формы add
 function popupAdditionHendler (evt) {
-    evt.preventDefault();
     sectionElements.prepend(collectCard(popupAdditionTitle.value, popupAdditionUrl.value))
-}
-
-//обнуление ошибок формы 
-function clearError () {
-    document.querySelectorAll('.popup__input-error').forEach(item => {
-        item.classList.remove('popup__input-error_type_active');
-        item.textContent = ' ';
-    })
-    document.querySelectorAll('.popup__input').forEach(item => {
-        item.classList.remove('popup__input_type_error');
-        item.textContent = ' ';
-    })
-    document.querySelectorAll('.popup__button').forEach(item => {
-        item.setAttribute('disabled', 'true');
-        item.classList.add('popup__button_disabled');
-    })
-    
-}
-
-//Закрытие popup 
-function closePopup (popupElement) {
-    popupElement.classList.remove('popup_opened');
-    document.removeEventListener('keyup', closePopupEsc);
-    clearError();
 }
 
 function definingPopup (evt) {
     if (evt.target.classList.contains('popup__close-icon') || (evt.target.classList.contains('popup'))) {
-        closePopup(evt.currentTarget);
-    }
-    if (evt.target.classList.contains('popup__button') && evt.target.closest('.popup__edit')) {
-        popupEditHandler(evt);
-        closePopup(evt.currentTarget);
-    }
-    if (evt.target.classList.contains('popup__button') && evt.target.closest('.popup__add')) {
-        popupAdditionHendler(evt);
         closePopup(evt.currentTarget);
     }
 }
@@ -172,4 +158,14 @@ function definingPopup (evt) {
 document.querySelectorAll('.popup').forEach(item => {
     item.addEventListener('click', definingPopup);
 })
+
+formEdit.addEventListener('submit', evt => {
+    popupEditHandler(evt);
+    closePopup(popupEdit)
+});
+
+formAdd.addEventListener('submit', evt => {
+    popupAdditionHendler(evt);
+    closePopup(popupAdd)
+});
 

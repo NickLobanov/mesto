@@ -1,3 +1,12 @@
+const objectElements = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_type_active'
+}
+
 // Функция, которая добавляет класс с ошибкой
 const showInputError = (formElement, inputElement, errorMessage, objectForm) => {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
@@ -62,17 +71,13 @@ const setEventListeners = (formElement, objectForm) => {
 const enableValidation = (objectForm) => {
   const formList = Array.from(document.querySelectorAll(objectForm.formSelector));
   formList.forEach((formElement) => {
+    formElement.addEventListener('submit', evt => {
+      evt.preventDefault();
+    })
     setEventListeners(formElement, objectForm);
   })
 }
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_type_active'
-});
+enableValidation(objectElements);
 
 
 
