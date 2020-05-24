@@ -76,6 +76,8 @@ function clearError (objectElements) {
         allInput.forEach(inputItem => {
             hideInputError(formItem, inputItem, objectElements)
         })
+        formItem.querySelector('.popup__button').setAttribute('disabled', 'true')
+        formItem.querySelector('.popup__button').classList.add(objectElements.inactiveButtonClass);
     })
 }
 
