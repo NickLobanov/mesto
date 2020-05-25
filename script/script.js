@@ -69,23 +69,19 @@ function createArticle() {
 createArticle()
 
 //обнуление ошибок формы 
-function clearError (objectElements) {
-    const allForm = Array.from(document.querySelectorAll(objectElements.formSelector));
-    allForm.forEach(formItem => {
-        const allInput = Array.from(formItem.querySelectorAll(objectElements.inputSelector));
-        allInput.forEach(inputItem => {
-            hideInputError(formItem, inputItem, objectElements)
-        })
-        formItem.querySelector('.popup__button').setAttribute('disabled', 'true')
-        formItem.querySelector('.popup__button').classList.add(objectElements.inactiveButtonClass);
+function clearError (formElement) {
+    const allInput = Array.from(formElement.querySelectorAll(objectElements.inputSelector));
+    const buttonElement = formElement.querySelector(objectElements.submitButtonSelector)
+    allInput.forEach(inputItem => {
+        hideInputError(formElement, inputItem, objectElements)
     })
+    buttonState(allInput, buttonElement, objectElements)
 }
 
 //Закрытие popup 
 function closePopup (popupElement) {
     popupElement.classList.remove('popup_opened');
     document.removeEventListener('keyup', closePopupEsc);
-    clearError(objectElements);
 }
 
 //закрытие popup клавишей Esc
@@ -116,7 +112,7 @@ sectionElements.addEventListener('click', evt => {
         evt.target.classList.toggle('article__like_active');
     }
     if (evt.target.classList.contains('article__basket')) {
-       evt.target.parentElement.remove()
+       evt.target.closest('.article').remove()
     }
     if (evt.target.classList.contains('article__foto')) {
         colectionPopupImage(evt);
@@ -127,16 +123,18 @@ sectionElements.addEventListener('click', evt => {
 
 //Добавление слушателей для кнопок редактирования и добавления
 function eventEditButton () {
-    openPopup(popupEdit);
     popupEditName.value = profileName.textContent;
     popupEditDescription.value = profileDesctiption.textContent;
+    clearError(formEdit)
+    openPopup(popupEdit);
 }
 document.querySelector('.profile__edit').addEventListener('click', eventEditButton);
 
 function eventAddButton () {
-    openPopup(popupAdd);
     popupAdditionTitle.value = '';
     popupAdditionUrl.value = '';
+    clearError(formAdd)
+    openPopup(popupAdd);
 }
 document.querySelector('.profile__button').addEventListener('click', eventAddButton);
 
