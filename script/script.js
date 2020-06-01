@@ -1,3 +1,5 @@
+import {Card} from './Card.js';
+
 const initialCards = [
     {
         name: 'Архыз',
@@ -47,26 +49,24 @@ const popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
 const popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
 
 
-function collectCard (name, link) {
-    const newArticle = articletemplate.cloneNode(true);
-    const articleFoto = newArticle.querySelector('.article__foto');
-    articleFoto.src = link;
-    articleFoto.alt = name;
-    newArticle.querySelector('.article__name').textContent = name;
-    return newArticle;
+function collectCard (name, link, cardSelector) {
+    const card = new Card(name, link, cardSelector);
+    const newElement = card.cardGenerate();
+    return newElement;
 }
 
-function addCard (name, link) {
-    sectionElements.append(collectCard(name, link))
+function addCard (name, link, cardSelector) {
+    sectionElements.append(collectCard(name, link, cardSelector))
 }
 
 //Функция создания карточек
 function createArticle() {
     initialCards.forEach((item) => {
-        addCard(item.name, item.link)
+        addCard(item.name, item.link, '#article__template')
     }); 
 }
 createArticle()
+
 
 //обнуление ошибок формы 
 function clearError (formElement) {
@@ -146,7 +146,7 @@ function popupEditHandler (evt) {
 
 //Обработчик формы add
 function popupAdditionHendler (evt) {
-    sectionElements.prepend(collectCard(popupAdditionTitle.value, popupAdditionUrl.value))
+    sectionElements.prepend(collectCard(popupAdditionTitle.value, popupAdditionUrl.value, '#article__template'))
 }
 
 function definingPopup (evt) {
