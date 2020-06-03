@@ -1,4 +1,5 @@
 import {Card} from './Card.js';
+import {formConfig, FormValidator} from './FormValidator.js'
 
 const initialCards = [
     {
@@ -48,6 +49,10 @@ const formAdd = popupAdd.querySelector('.popup__form');
 const popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
 const popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
 
+//Создания классов валидации
+const formEditValidation = new FormValidator(formConfig, formEdit);
+const formAddValidation = new FormValidator(formConfig, formAdd);
+
 
 function collectCard (name, link, cardSelector) {
     const card = new Card(name, link, cardSelector);
@@ -66,17 +71,6 @@ function createArticle() {
     }); 
 }
 createArticle()
-
-
-//обнуление ошибок формы 
-function clearError (formElement) {
-    const allInput = Array.from(formElement.querySelectorAll(objectElements.inputSelector));
-    const buttonElement = formElement.querySelector(objectElements.submitButtonSelector)
-    allInput.forEach(inputItem => {
-        hideInputError(formElement, inputItem, objectElements)
-    })
-    buttonState(allInput, buttonElement, objectElements)
-}
 
 //Закрытие popup 
 function closePopup (popupElement) {
@@ -125,7 +119,7 @@ sectionElements.addEventListener('click', evt => {
 function eventEditButton () {
     popupEditName.value = profileName.textContent;
     popupEditDescription.value = profileDesctiption.textContent;
-    clearError(formEdit)
+    formEditValidation.enableValidation()
     openPopup(popupEdit);
 }
 document.querySelector('.profile__edit').addEventListener('click', eventEditButton);
@@ -133,19 +127,19 @@ document.querySelector('.profile__edit').addEventListener('click', eventEditButt
 function eventAddButton () {
     popupAdditionTitle.value = '';
     popupAdditionUrl.value = '';
-    clearError(formAdd)
+    formAddValidation.enableValidation()
     openPopup(popupAdd);
 }
 document.querySelector('.profile__button').addEventListener('click', eventAddButton);
 
 //Обработчик формы edit 
-function popupEditHandler (evt) {
+function popupEditHandler () {
     profileName.textContent = popupEditName.value;
     profileDesctiption.textContent = popupEditDescription.value;
 }
 
 //Обработчик формы add
-function popupAdditionHendler (evt) {
+function popupAdditionHendler () {
     sectionElements.prepend(collectCard(popupAdditionTitle.value, popupAdditionUrl.value, '#article__template'))
 }
 
@@ -160,12 +154,14 @@ document.querySelectorAll('.popup').forEach(item => {
 })
 
 formEdit.addEventListener('submit', evt => {
-    popupEditHandler(evt);
+    evt.preventDefault();
+    popupEditHandler();
     closePopup(popupEdit)
 });
 
 formAdd.addEventListener('submit', evt => {
-    popupAdditionHendler(evt);
+    evt.preventDefault();
+    popupAdditionHendler();
     closePopup(popupAdd)
 });
 
