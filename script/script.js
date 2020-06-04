@@ -28,7 +28,6 @@ const initialCards = [
     }
 ];
 
-const articletemplate = document.querySelector('#article__template').content;
 const sectionElements = document.querySelector('.elements')
 const profileName = document.querySelector('.profile__name');
 const profileDesctiption = document.querySelector('.profile__description');
@@ -70,7 +69,7 @@ function createArticle() {
         addCard(item.name, item.link, '#article__template')
     }); 
 }
-createArticle()
+
 
 //Закрытие popup 
 function closePopup (popupElement) {
@@ -100,37 +99,30 @@ function colectionPopupImage (evt) {
     imageText.textContent = imageAlt;
 }
 
-//Обработчик лайков и удалений
+//Обработчик открытия popup image
 sectionElements.addEventListener('click', evt => {
-    if (evt.target.classList.contains('article__like')) {
-        evt.target.classList.toggle('article__like_active');
-    }
-    if (evt.target.classList.contains('article__basket')) {
-       evt.target.closest('.article').remove()
-    }
     if (evt.target.classList.contains('article__foto')) {
         colectionPopupImage(evt);
         openPopup(popupImage);
-        
     }
 })
 
 //Добавление слушателей для кнопок редактирования и добавления
-function eventEditButton () {
+function editButtonHandler () {
     popupEditName.value = profileName.textContent;
     popupEditDescription.value = profileDesctiption.textContent;
     formEditValidation.enableValidation()
     openPopup(popupEdit);
 }
-document.querySelector('.profile__edit').addEventListener('click', eventEditButton);
+document.querySelector('.profile__edit').addEventListener('click', editButtonHandler);
 
-function eventAddButton () {
+function addButtonHandler () {
     popupAdditionTitle.value = '';
     popupAdditionUrl.value = '';
     formAddValidation.enableValidation()
     openPopup(popupAdd);
 }
-document.querySelector('.profile__button').addEventListener('click', eventAddButton);
+document.querySelector('.profile__button').addEventListener('click', addButtonHandler);
 
 //Обработчик формы edit 
 function popupEditHandler () {
@@ -164,4 +156,6 @@ formAdd.addEventListener('submit', evt => {
     popupAdditionHendler();
     closePopup(popupAdd)
 });
+
+createArticle()
 
