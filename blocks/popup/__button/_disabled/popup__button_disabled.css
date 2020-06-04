@@ -8,4 +8,5 @@
     color: rgba(00, 00, 00, 0.3);
     border: 1px solid rgba(00, 00, 00, 0.3);
     background-color: transparent;
+    cursor: default;
 }

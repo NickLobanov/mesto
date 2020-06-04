@@ -1,5 +1,5 @@
 import {Card} from './Card.js';
-import {formConfig, FormValidator} from './FormValidator.js'
+import {FormValidator} from './FormValidator.js'
 
 const initialCards = [
     {
@@ -28,9 +28,18 @@ const initialCards = [
     }
 ];
 
+//Объект с селекторами для настройки валидации
+const formConfig = {
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__input-error_type_active'
+  }
+
 const sectionElements = document.querySelector('.elements')
 const profileName = document.querySelector('.profile__name');
-const profileDesctiption = document.querySelector('.profile__description');
+const profileDescription = document.querySelector('.profile__description');
 const elementImage = document.querySelector('.open-popup__image');
 const imageText = document.querySelector('.open-popup__text');
 const popupImage = document.querySelector('.popup__image');
@@ -91,7 +100,7 @@ function openPopup(popup) {
 }
 
 //Функция открытия popup image
-function colectionPopupImage (evt) {
+function collectionPopupImage (evt) {
     const imageSrc = evt.target.getAttribute('src');
     const imageAlt = evt.target.getAttribute('alt');
     elementImage.setAttribute('src', imageSrc);
@@ -102,7 +111,7 @@ function colectionPopupImage (evt) {
 //Обработчик открытия popup image
 sectionElements.addEventListener('click', evt => {
     if (evt.target.classList.contains('article__foto')) {
-        colectionPopupImage(evt);
+        collectionPopupImage(evt);
         openPopup(popupImage);
     }
 })
@@ -110,7 +119,7 @@ sectionElements.addEventListener('click', evt => {
 //Добавление слушателей для кнопок редактирования и добавления
 function editButtonHandler () {
     popupEditName.value = profileName.textContent;
-    popupEditDescription.value = profileDesctiption.textContent;
+    popupEditDescription.value = profileDescription.textContent;
     formEditValidation.enableValidation()
     openPopup(popupEdit);
 }
@@ -127,11 +136,11 @@ document.querySelector('.profile__button').addEventListener('click', addButtonHa
 //Обработчик формы edit 
 function popupEditHandler () {
     profileName.textContent = popupEditName.value;
-    profileDesctiption.textContent = popupEditDescription.value;
+    profileDescription.textContent = popupEditDescription.value;
 }
 
 //Обработчик формы add
-function popupAdditionHendler () {
+function popupAdditionHandler () {
     sectionElements.prepend(collectCard(popupAdditionTitle.value, popupAdditionUrl.value, '#article__template'))
 }
 
@@ -153,7 +162,7 @@ formEdit.addEventListener('submit', evt => {
 
 formAdd.addEventListener('submit', evt => {
     evt.preventDefault();
-    popupAdditionHendler();
+    popupAdditionHandler();
     closePopup(popupAdd)
 });
 
