@@ -1,5 +1,6 @@
 import {Card} from './Card.js';
-import {FormValidator} from './FormValidator.js'
+import {FormValidator} from './FormValidator.js';
+import {Section} from './Section.js';
 
 const initialCards = [
     {
@@ -61,24 +62,18 @@ const popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description'
 const formEditValidation = new FormValidator(formConfig, formEdit);
 const formAddValidation = new FormValidator(formConfig, formAdd);
 
-
-function collectCard (name, link, cardSelector) {
-    const card = new Card(name, link, cardSelector);
-    const newElement = card.cardGenerate();
-    return newElement;
-}
-
-function addCard (name, link, cardSelector) {
-    sectionElements.append(collectCard(name, link, cardSelector))
-}
-
-//Функция создания карточек
-function createArticle() {
-    initialCards.forEach((item) => {
-        addCard(item.name, item.link, '#article__template')
-    }); 
-}
-
+//Добавление карточек из массива
+const cardList = new Section ({
+    data: initialCards,
+    renderer: (item) => {
+        const card = new Card(item.name, item.link, '#article__template');
+        const cardElement = card.cardGenerate();
+        cardList.setItem(cardElement);
+    }
+},     
+'.elements');
+    
+cardList.renderItems();
 
 //Закрытие popup 
 function closePopup (popupElement) {
