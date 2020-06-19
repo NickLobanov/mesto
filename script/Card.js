@@ -1,8 +1,9 @@
 export class Card {
-    constructor(name, link, cardSelector) {
+    constructor({name, link, cardSelector, handleCardClick}) {
         this._name = name;
         this._link = link;
         this._cardSelector = cardSelector;
+        this._handleCardClick = handleCardClick;
     }
 
     _getTemplate() {
@@ -31,6 +32,9 @@ export class Card {
 
         this._element.querySelector('.article__basket').addEventListener('click', () => {
             this._handleBasketClick();
+        })
+        this._element.querySelector('.article__foto').addEventListener('click', (evt) => {
+            this._handleCardClick(evt);
         })
     }
 

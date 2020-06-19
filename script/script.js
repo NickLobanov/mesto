@@ -1,6 +1,9 @@
 import {Card} from './Card.js';
 import {FormValidator} from './FormValidator.js';
 import {Section} from './Section.js';
+import {PopupWithImage} from './PopupWithImage.js';
+import {PopupWithForm} from './PopupWithForm.js';
+import {UserInfo} from './UserInfo.js';
 
 const initialCards = [
     {
@@ -62,11 +65,31 @@ const popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description'
 const formEditValidation = new FormValidator(formConfig, formEdit);
 const formAddValidation = new FormValidator(formConfig, formAdd);
 
+//Создание классов Popup
+const popupWithImage = new PopupWithImage('.popup__image');
+const popupWithFormEdit = new PopupWithForm({
+    popupSelector: '.popup__edit',
+    submitForm: (values) => {
+        const userInfo = new UserInfo({
+            name: profileName,
+            description: profileDescription
+        });
+        userInfo.setUserInfo(values);
+    }
+})
+
+
 //Добавление карточек из массива
 const cardList = new Section ({
     data: initialCards,
     renderer: (item) => {
-        const card = new Card(item.name, item.link, '#article__template');
+        const card = new Card({
+            name: item.name,
+            link: item.link,
+            cardSelector: '#article__template',
+            handleCardClick: (evt) =>{
+                popupWithImage.open(evt);
+            }});
         const cardElement = card.cardGenerate();
         cardList.setItem(cardElement);
     }
@@ -78,45 +101,18 @@ cardList.renderItems();
 //Закрытие popup 
 function closePopup (popupElement) {
     popupElement.classList.remove('popup_opened');
-    document.removeEventListener('keyup', closePopupEsc);
-}
 
-//закрытие popup клавишей Esc
-function closePopupEsc (evt) {
-    if (evt.key === 'Escape') {
-        closePopup(document.querySelector('.popup_opened'))
-    }
 }
 
 //функция открытия popupов
 function openPopup(popup) {
-   popup.classList.add('popup_opened')
-   document.addEventListener('keyup', closePopupEsc)
+   popup.classList.add('popup_opened')   
 }
-
-//Функция открытия popup image
-function collectionPopupImage (evt) {
-    const imageSrc = evt.target.getAttribute('src');
-    const imageAlt = evt.target.getAttribute('alt');
-    elementImage.setAttribute('src', imageSrc);
-    elementImage.setAttribute('alt', imageAlt);
-    imageText.textContent = imageAlt;
-}
-
-//Обработчик открытия popup image
-sectionElements.addEventListener('click', evt => {
-    if (evt.target.classList.contains('article__foto')) {
-        collectionPopupImage(evt);
-        openPopup(popupImage);
-    }
-})
 
 //Добавление слушателей для кнопок редактирования и добавления
 function editButtonHandler () {
-    popupEditName.value = profileName.textContent;
-    popupEditDescription.value = profileDescription.textContent;
-    formEditValidation.enableValidation()
-    openPopup(popupEdit);
+    popupWithFormEdit.open();
+    popupWithFormEdit.setEventListener()
 }
 document.querySelector('.profile__edit').addEventListener('click', editButtonHandler);
 
@@ -128,11 +124,6 @@ function addButtonHandler () {
 }
 document.querySelector('.profile__button').addEventListener('click', addButtonHandler);
 
-//Обработчик формы edit 
-function popupEditHandler () {
-    profileName.textContent = popupEditName.value;
-    profileDescription.textContent = popupEditDescription.value;
-}
 
 //Обработчик формы add
 function popupAdditionHandler () {
@@ -149,17 +140,10 @@ document.querySelectorAll('.popup').forEach(item => {
     item.addEventListener('click', definingPopup);
 })
 
-formEdit.addEventListener('submit', evt => {
-    evt.preventDefault();
-    popupEditHandler();
-    closePopup(popupEdit)
-});
-
 formAdd.addEventListener('submit', evt => {
     evt.preventDefault();
     popupAdditionHandler();
     closePopup(popupAdd)
 });
 
-createArticle()
 
