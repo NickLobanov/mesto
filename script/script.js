@@ -41,14 +41,6 @@ const formConfig = {
     errorClass: 'popup__input-error_type_active'
   }
 
-const sectionElements = document.querySelector('.elements')
-const profileName = document.querySelector('.profile__name');
-const profileDescription = document.querySelector('.profile__description');
-const elementImage = document.querySelector('.open-popup__image');
-const imageText = document.querySelector('.open-popup__text');
-const popupImage = document.querySelector('.popup__image');
-
-
 //Находим поля формы edit
 const popupEdit = document.querySelector('.popup__edit');
 const formEdit = popupEdit.querySelector('.popup__form');
@@ -58,27 +50,15 @@ const popupEditDescription = popupEdit.querySelector('.popup__input_type_descrip
 //Находим поля формы add
 const popupAdd = document.querySelector('.popup__add');
 const formAdd = popupAdd.querySelector('.popup__form');
-const popupAdditionTitle = popupAdd.querySelector('.popup__input_type_title');
-const popupAdditionUrl = popupAdd.querySelector('.popup__input_type_description');
 
 //Создания классов валидации
 const formEditValidation = new FormValidator(formConfig, formEdit);
 const formAddValidation = new FormValidator(formConfig, formAdd);
 
-//Создание классов Popup
-const popupWithImage = new PopupWithImage('.popup__image');
-const popupWithFormEdit = new PopupWithForm({
-    popupSelector: '.popup__edit',
-    submitForm: (values) => {
-        const userInfo = new UserInfo({
-            name: profileName,
-            description: profileDescription
-        });
-        userInfo.setUserInfo(values);
-    }
+const userInfo = new UserInfo({
+    name: popupEditName,
+    description: popupEditDescription
 })
-
-
 //Добавление карточек из массива
 const cardList = new Section ({
     data: initialCards,
@@ -87,7 +67,7 @@ const cardList = new Section ({
             name: item.name,
             link: item.link,
             cardSelector: '#article__template',
-            handleCardClick: (evt) =>{
+            handleCardClick: (evt) => {
                 popupWithImage.open(evt);
             }});
         const cardElement = card.cardGenerate();
@@ -95,55 +75,55 @@ const cardList = new Section ({
     }
 },     
 '.elements');
-    
 cardList.renderItems();
 
-//Закрытие popup 
-function closePopup (popupElement) {
-    popupElement.classList.remove('popup_opened');
+//Создание классов Popup
+const popupWithImage = new PopupWithImage('.popup__image');
 
-}
+const popupWithFormEdit = new PopupWithForm({
+    popupSelector: '.popup__edit',
+    submitForm: (values) => {
+        userInfo.setUserInfo(values);
+    }
+})
 
-//функция открытия popupов
-function openPopup(popup) {
-   popup.classList.add('popup_opened')   
-}
+const popupWithFormAdd = new PopupWithForm({
+    popupSelector: '.popup__add',
+    submitForm: (values) => {
+       const card = new Card({
+           name: values.title,
+           description: values.url,
+           cardSelector: '#article__template',
+           handleCardClick: (evt) => {
+               popupWithImage.open(evt);
+           }
+       })
+       const cardElement = card.cardGenerate();
+       const cardSection = new Section({
+           data:[]
+       }, '.elements')
+       cardSection.prependItem(cardElement);
+    }
+})
 
 //Добавление слушателей для кнопок редактирования и добавления
 function editButtonHandler () {
+    userInfo.getUserInfo();
+    formEditValidation.enableValidation();
     popupWithFormEdit.open();
-    popupWithFormEdit.setEventListener()
+    popupWithFormEdit.setEventListeners()
 }
 document.querySelector('.profile__edit').addEventListener('click', editButtonHandler);
 
 function addButtonHandler () {
-    popupAdditionTitle.value = '';
-    popupAdditionUrl.value = '';
     formAddValidation.enableValidation()
-    openPopup(popupAdd);
+    popupWithFormAdd.open();
+    popupWithFormAdd.setEventListeners()
 }
 document.querySelector('.profile__button').addEventListener('click', addButtonHandler);
 
 
-//Обработчик формы add
-function popupAdditionHandler () {
-    sectionElements.prepend(collectCard(popupAdditionTitle.value, popupAdditionUrl.value, '#article__template'))
-}
 
-function definingPopup (evt) {
-    if (evt.target.classList.contains('popup__close-icon') || (evt.target.classList.contains('popup'))) {
-        closePopup(evt.currentTarget);
-    }
-}
 
-document.querySelectorAll('.popup').forEach(item => {
-    item.addEventListener('click', definingPopup);
-})
-
-formAdd.addEventListener('submit', evt => {
-    evt.preventDefault();
-    popupAdditionHandler();
-    closePopup(popupAdd)
-});
 
 

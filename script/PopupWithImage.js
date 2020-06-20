@@ -10,7 +10,7 @@ export class PopupWithImage extends Popup {
         this._popupSelector.querySelector('.open-popup__image').setAttribute('src', imageSrc);
         this._popupSelector.querySelector('.open-popup__image').setAttribute('alt', imageAlt);
         this._popupSelector.querySelector('.open-popup__text').textContent = imageAlt;
-    
+
         super.open();
     }
 }
