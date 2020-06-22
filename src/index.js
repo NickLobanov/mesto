@@ -93,7 +93,7 @@ const popupWithFormAdd = new PopupWithForm({
     submitForm: (values) => {
        const card = new Card({
            name: values.title,
-           description: values.url,
+           link: values.url,
            cardSelector: '#article__template',
            handleCardClick: (evt) => {
                popupWithImage.open(evt);
