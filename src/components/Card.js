@@ -33,8 +33,8 @@ export class Card {
         this._element.querySelector('.article__basket').addEventListener('click', () => {
             this._handleBasketClick();
         })
-        this._element.querySelector('.article__foto').addEventListener('click', (evt) => {
-            this._handleCardClick(evt);
+        this._element.querySelector('.article__foto').addEventListener('click', () => {
+            this._handleCardClick(this._name, this._link);
         })
     }
 
