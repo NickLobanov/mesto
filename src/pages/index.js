@@ -1,10 +1,10 @@
-import './page/index.css'
-import {Card} from './components/Card.js';
-import {FormValidator} from './components/FormValidator.js';
-import {Section} from './components/Section.js';
-import {PopupWithImage} from './components/PopupWithImage.js';
-import {PopupWithForm} from './components/PopupWithForm.js';
-import {UserInfo} from './components/UserInfo.js';
+import '../page/index.css'
+import {Card} from '../components/Card.js';
+import {FormValidator} from '../components/FormValidator.js';
+import {Section} from '../components/Section.js';
+import {PopupWithImage} from '../components/PopupWithImage.js';
+import {PopupWithForm} from '../components/PopupWithForm.js';
+import {UserInfo} from '../components/UserInfo.js';
 
 const initialCards = [
     {
@@ -42,6 +42,8 @@ const formConfig = {
     errorClass: 'popup__input-error_type_active'
   }
 
+const profileName = document.querySelector('.profile__name');
+const profileDescription = document.querySelector('.profile__description');
 //Находим поля формы edit
 const popupEdit = document.querySelector('.popup__edit');
 const formEdit = popupEdit.querySelector('.popup__form');
@@ -57,8 +59,8 @@ const formEditValidation = new FormValidator(formConfig, formEdit);
 const formAddValidation = new FormValidator(formConfig, formAdd);
 
 const userInfo = new UserInfo({
-    name: popupEditName,
-    description: popupEditDescription
+    name: profileName,
+    description: profileDescription
 })
 //Добавление карточек из массива
 const cardList = new Section ({
@@ -68,8 +70,8 @@ const cardList = new Section ({
             name: item.name,
             link: item.link,
             cardSelector: '#article__template',
-            handleCardClick: (evt) => {
-                popupWithImage.open(evt);
+            handleCardClick: (name, link) => {
+                popupWithImage.open(name, link);
             }});
         const cardElement = card.cardGenerate();
         cardList.setItem(cardElement);
@@ -95,31 +97,28 @@ const popupWithFormAdd = new PopupWithForm({
            name: values.title,
            link: values.url,
            cardSelector: '#article__template',
-           handleCardClick: (evt) => {
-               popupWithImage.open(evt);
+           handleCardClick: (name, link) => {
+               popupWithImage.open(name, link);
            }
        })
        const cardElement = card.cardGenerate();
-       const cardSection = new Section({
-           data:[]
-       }, '.elements')
-       cardSection.prependItem(cardElement);
+       cardList.setItem(cardElement);
     }
 })
 
 //Добавление слушателей для кнопок редактирования и добавления
 function editButtonHandler () {
-    userInfo.getUserInfo();
+    const userObject =  userInfo.getUserInfo();
+    popupEditName.value = userObject.name;
+    popupEditDescription.value = userObject.description;
     formEditValidation.enableValidation();
     popupWithFormEdit.open();
-    popupWithFormEdit.setEventListeners()
 }
 document.querySelector('.profile__edit').addEventListener('click', editButtonHandler);
 
 function addButtonHandler () {
     formAddValidation.enableValidation()
     popupWithFormAdd.open();
-    popupWithFormAdd.setEventListeners()
 }
 document.querySelector('.profile__button').addEventListener('click', addButtonHandler);
 
