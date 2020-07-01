@@ -21,4 +21,21 @@ export class Api {
             
     }
 
+    patch(values) {
+        return fetch(this._baseUrl, {
+            method: 'PATCH',
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: values.name,
+                about: values.description
+            })
+        })
+            .then(res => {
+                return res.json()
+            })
+    }
+
 }

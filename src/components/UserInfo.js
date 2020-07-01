@@ -15,8 +15,11 @@ export class UserInfo {
     }
 
     setUserInfo(values) {
-        this._inputName.textContent = values.name;
-        this._inputDescription.textContent =  values.description;
+        this._api.patch(values).then(data => {
+            this._inputName.textContent = data.name;
+            this._inputDescription.textContent = data.about;
+        });
+        
     }
 
     getUserProfile() {
