@@ -20,7 +20,7 @@ export class UserInfo {
     }
 
     getUserProfile() {
-        this._api.getUserInfo().then(data => {
+        this._api.get().then(data => {
             this._inputName.textContent = data.name;
             this._inputDescription.textContent =  data.about;
             this._avatar.setAttribute('src', data.avatar)

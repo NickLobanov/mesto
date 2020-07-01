@@ -5,33 +5,7 @@ import {Section} from '../components/Section.js';
 import {PopupWithImage} from '../components/PopupWithImage.js';
 import {PopupWithForm} from '../components/PopupWithForm.js';
 import {UserInfo} from '../components/UserInfo.js';
-
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинск',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+import {Api} from '../components/Api.js'
 
 //Объект с селекторами для настройки валидации
 const formConfig = {
@@ -42,11 +16,15 @@ const formConfig = {
     errorClass: 'popup__input-error_type_active'
   }
 
+//создание класса Api
+const indentifier = 'cohort-12'
+const api = new Api(`https://mesto.nomoreparties.co/v1/${indentifier}/cards`)
 
 //данные пользователя 
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 const profileAvatar = document.querySelector('.profile__foto')
+
 //Находим поля формы edit
 const popupEdit = document.querySelector('.popup__edit');
 const formEdit = popupEdit.querySelector('.popup__form');
@@ -65,23 +43,27 @@ const userInfo = new UserInfo({
     name: profileName,
     description: profileDescription
 }, profileAvatar)
-//Добавление карточек из массива
-const cardList = new Section ({
-    data: initialCards,
-    renderer: (item) => {
-        const card = new Card({
-            name: item.name,
-            link: item.link,
-            cardSelector: '#article__template',
-            handleCardClick: (name, link) => {
-                popupWithImage.open(name, link);
-            }});
-        const cardElement = card.cardGenerate();
-        cardList.setItem(cardElement);
-    }
-},     
-'.elements');
-cardList.renderItems();
+
+//Добавление всех карточек
+api.get().then(data => {
+    const cardList = new Section ({
+        data: data,
+        renderer: (item) => {
+            const card = new Card({
+                name: item.name,
+                link: item.link,
+                cardSelector: '#article__template',
+                handleCardClick: (name, link) => {
+                    popupWithImage.open(name, link);
+                }});
+            const cardElement = card.cardGenerate();
+            cardList.setItem(cardElement);
+        }
+    },     
+    '.elements');
+    cardList.renderItems();
+})
+
 
 //Создание классов Popup
 const popupWithImage = new PopupWithImage('.popup__image');

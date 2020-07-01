@@ -4,7 +4,7 @@ export class Api {
         this._token = '226a3b48-5e66-4b0b-a28d-c1cfea729696'
     }
 
-    getUserInfo() {
+    get() {
         return fetch(this._baseUrl, {
             method: 'GET',
             headers: {
@@ -21,7 +21,4 @@ export class Api {
             
     }
 
-    loadCards() {
-        
-    }
 }
