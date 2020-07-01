@@ -42,8 +42,11 @@ const formConfig = {
     errorClass: 'popup__input-error_type_active'
   }
 
+
+//данные пользователя 
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
+const profileAvatar = document.querySelector('.profile__foto')
 //Находим поля формы edit
 const popupEdit = document.querySelector('.popup__edit');
 const formEdit = popupEdit.querySelector('.popup__form');
@@ -61,7 +64,7 @@ const formAddValidation = new FormValidator(formConfig, formAdd);
 const userInfo = new UserInfo({
     name: profileName,
     description: profileDescription
-})
+}, profileAvatar)
 //Добавление карточек из массива
 const cardList = new Section ({
     data: initialCards,
@@ -122,8 +125,7 @@ function addButtonHandler () {
 }
 document.querySelector('.profile__button').addEventListener('click', addButtonHandler);
 
-
-
+userInfo.getUserProfile();
 
 
 
