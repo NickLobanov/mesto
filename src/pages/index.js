@@ -38,7 +38,8 @@ const formAdd = popupAdd.querySelector('.popup__form');
 //Создания классов валидации
 const formEditValidation = new FormValidator(formConfig, formEdit);
 const formAddValidation = new FormValidator(formConfig, formAdd);
-
+//Создание класса Section
+const cardList = new Section('.elements')
 const userInfo = new UserInfo({
     name: profileName,
     description: profileDescription
@@ -46,22 +47,17 @@ const userInfo = new UserInfo({
 
 //Добавление всех карточек
 api.get().then(data => {
-    const cardList = new Section ({
-        data: data,
-        renderer: (item) => {
-            const card = new Card({
-                name: item.name,
-                link: item.link,
-                cardSelector: '#article__template',
-                handleCardClick: (name, link) => {
-                    popupWithImage.open(name, link);
-                }});
-            const cardElement = card.cardGenerate();
-            cardList.setItem(cardElement);
-        }
-    },     
-    '.elements');
-    cardList.renderItems();
+    data.forEach(item => {
+        const card = new Card({
+            name: item.name,
+            link: item.link,
+            cardSelector: '#article__template',
+            handleCardClick: (name, link) => {
+                popupWithImage.open(name, link);
+            }});
+        const cardElement = card.cardGenerate();
+        cardList.setItem(cardElement);  
+    }) 
 })
 
 
@@ -78,16 +74,18 @@ const popupWithFormEdit = new PopupWithForm({
 const popupWithFormAdd = new PopupWithForm({
     popupSelector: '.popup__add',
     submitForm: (values) => {
-       const card = new Card({
-           name: values.title,
-           link: values.url,
-           cardSelector: '#article__template',
-           handleCardClick: (name, link) => {
-               popupWithImage.open(name, link);
-           }
-       })
-       const cardElement = card.cardGenerate();
-       cardList.setItem(cardElement);
+        api.post(values).then(data => {
+            const card = new Card({
+                name: data.name,
+                link: data.link,
+                cardSelector: '#article__template',
+                handleCardClick: (name, link) => {
+                    popupWithImage.open(name, link);
+                }
+            })
+            const cardElement = card.cardGenerate();
+            cardList.setItem(cardElement);
+            })
     }
 })
 

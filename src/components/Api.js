@@ -38,4 +38,21 @@ export class Api {
             })
     }
 
+    post(values) {
+        return fetch(this._baseUrl, {
+            method: 'POST',
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: values.title,
+                link: values.url
+            })
+        })
+            .then(res => {
+                return res.json()
+            })
+    }
+
 }
