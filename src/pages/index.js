@@ -51,6 +51,7 @@ api.get().then(data => {
         const card = new Card({
             name: item.name,
             link: item.link,
+            like: item.likes.length,
             cardSelector: '#article__template',
             handleCardClick: (name, link) => {
                 popupWithImage.open(name, link);

@@ -1,9 +1,11 @@
 export class Card {
-    constructor({name, link, cardSelector, handleCardClick}) {
+    constructor({name, link, cardSelector, handleCardClick, id, like}) {
         this._name = name;
         this._link = link;
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
+        this._id = id;
+        this._like = like
     }
 
     _getTemplate() {
@@ -20,6 +22,7 @@ export class Card {
         this._elementFoto.src = this._link;
         this._elementFoto.alt = this._name;
         this._element.querySelector('.article__name').textContent = this._name;
+        this._element.querySelector('.article__like-amount').textContent = this._like;
         this._setEventListeners()
 
         return this._element;

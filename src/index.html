@@ -62,13 +62,23 @@
             </div>  
         </div>
 
+        <div class="popup popup__confirm">
+            <div class="popup__container">
+                <h2 class="popup__title">Вы уверены?</h2>
+                <button class="popup__button" type="button">Да</button>
+            </div>
+        </div>
+
         <template id="article__template">
             <div class="article">
                 <button class="article__basket" type="button"></button>
                 <img class="article__foto"  alt="">
                 <div class="article__description">
                     <p class="article__name"></p>
-                    <button class="article__like" type="button"></button>
+                    <div class="article__like-container">
+                        <button class="article__like" type="button"></button>
+                        <span class="article__like-amount"></span>
+                    </div>
                 </div>
             </div>
          </template>

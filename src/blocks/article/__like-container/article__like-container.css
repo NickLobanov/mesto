@@ -1,0 +1,6 @@
+.article__like-container {
+    margin-right: 29px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
