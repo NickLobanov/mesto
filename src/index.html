@@ -12,7 +12,10 @@
         </header>
 
         <section class="profile">
-            <img src="./images/avatar.jpg" alt="Фото" class="profile__foto">
+            <div class="profile__wrap">
+                <img src="./images/avatar.jpg" alt="Фото" class="profile__foto">
+                <div class="profile__pen"></div>
+            </div>
             <div class="profile__info">
                 <h2 class="profile__name"></h2>
                 <p class="profile__description"></p>
@@ -66,7 +69,18 @@
             <div class="popup__container">
                 <h2 class="popup__title">Вы уверены?</h2>
                 <button class="popup__button" type="button">Да</button>
+                <button class="popup__close-icon" type="button"></button>
             </div>
+        </div>
+
+        <div class="popup popup__avatar">
+            <form action="" class="popup__container popup__form">
+                <h2 class="popup__title">Обновить аватар</h2>
+                <input id="form__title" type="url" name="link" class="popup__input popup__input_type_title" value="" placeholder="Название" required minlength="1">
+                <span id="form__title-error" class="popup__input-error"></span>
+                <button class="popup__button" type="submit">Сохранить</button>
+                <button class="popup__close-icon" type="button"></button>
+            </form>
         </div>
 
         <template id="article__template">

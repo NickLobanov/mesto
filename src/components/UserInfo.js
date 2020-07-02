@@ -14,6 +14,18 @@ export class UserInfo {
         }
     }
 
+    getUserAvatar() {
+        return {
+            link: this._avatar.getAttribute('src')
+        }
+    }
+
+    editUserAvatar(url,values) {
+        this._api.patchAvatar(url, values).then(data => {
+            this._avatar.setAttribute('src', data.avatar)
+        })
+    }
+
     setUserInfo(values) {
         this._api.patch(values).then(data => {
             this._inputName.textContent = data.name;

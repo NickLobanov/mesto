@@ -6,6 +6,7 @@ import {PopupWithImage} from '../components/PopupWithImage.js';
 import {PopupWithForm} from '../components/PopupWithForm.js';
 import {UserInfo} from '../components/UserInfo.js';
 import {Api} from '../components/Api.js'
+import { PopupConfirm } from '../components/PopupConfirm';
 
 //Объект с селекторами для настройки валидации
 const formConfig = {
@@ -31,6 +32,11 @@ const formEdit = popupEdit.querySelector('.popup__form');
 const popupEditName = popupEdit.querySelector('.popup__input_type_title');
 const popupEditDescription = popupEdit.querySelector('.popup__input_type_description');
 
+//Поля формы avatar
+const popupAvatar = document.querySelector('.popup__avatar');
+const formAvatar = popupAvatar.querySelector('.popup__form');
+const inputAvatarLink = formAvatar.querySelector('.popup__input_type_title');
+
 //Находим поля формы add
 const popupAdd = document.querySelector('.popup__add');
 const formAdd = popupAdd.querySelector('.popup__form');
@@ -38,8 +44,10 @@ const formAdd = popupAdd.querySelector('.popup__form');
 //Создания классов валидации
 const formEditValidation = new FormValidator(formConfig, formEdit);
 const formAddValidation = new FormValidator(formConfig, formAdd);
+const formAvatarVAlidator = new FormValidator(formConfig, formAvatar);
 //Создание класса Section
 const cardList = new Section('.elements')
+
 const userInfo = new UserInfo({
     name: profileName,
     description: profileDescription
@@ -55,6 +63,9 @@ api.get().then(data => {
             cardSelector: '#article__template',
             handleCardClick: (name, link) => {
                 popupWithImage.open(name, link);
+            },
+            handleBusketClick: () => {
+                popupConfirm.open()
             }});
         const cardElement = card.cardGenerate();
         cardList.setItem(cardElement);  
@@ -64,6 +75,7 @@ api.get().then(data => {
 
 //Создание классов Popup
 const popupWithImage = new PopupWithImage('.popup__image');
+const popupConfirm = new PopupConfirm('.popup__confirm')
 
 const popupWithFormEdit = new PopupWithForm({
     popupSelector: '.popup__edit',
@@ -90,6 +102,13 @@ const popupWithFormAdd = new PopupWithForm({
     }
 })
 
+const popupEditAvatar = new PopupWithForm({
+    popupSelector: '.popup__avatar',
+    submitForm: (values) => {
+        userInfo.editUserAvatar('/avatar', values)
+    }
+})
+
 //Добавление слушателей для кнопок редактирования и добавления
 function editButtonHandler () {
     const userObject =  userInfo.getUserInfo();
@@ -105,6 +124,14 @@ function addButtonHandler () {
     popupWithFormAdd.open();
 }
 document.querySelector('.profile__button').addEventListener('click', addButtonHandler);
+
+function editUserAvatar() {
+    const userAvatar = userInfo.getUserAvatar();
+    inputAvatarLink.value = userAvatar.link;
+    formAvatarVAlidator.enableValidation();
+    popupEditAvatar.open();
+}
+document.querySelector('.profile__wrap').addEventListener('click', editUserAvatar)
 
 userInfo.getUserProfile();
 

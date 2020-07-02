@@ -38,6 +38,22 @@ export class Api {
             })
     }
 
+    patchAvatar(url, values) {
+        return fetch(this._baseUrl + url, {
+            method: 'PATCH',
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                avatar: values.link
+            })
+        })
+            .then(res => {
+                return res.json()
+            })
+    }
+
     post(values) {
         return fetch(this._baseUrl, {
             method: 'POST',

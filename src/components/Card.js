@@ -1,9 +1,10 @@
 export class Card {
-    constructor({name, link, cardSelector, handleCardClick, id, like}) {
+    constructor({name, link, cardSelector, handleCardClick, handleBusketClick, id, like}) {
         this._name = name;
         this._link = link;
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
+        this._handleBasketClick = handleBusketClick;
         this._id = id;
         this._like = like
     }
@@ -43,10 +44,6 @@ export class Card {
 
     _handleLikeClick() {
         this._element.querySelector('.article__like').classList.toggle('article__like_active')
-    }
-
-    _handleBasketClick() {
-        this._element.querySelector('.article__basket').closest('.article').remove();
     }
 
 }
