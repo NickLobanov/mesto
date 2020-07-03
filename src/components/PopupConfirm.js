@@ -23,8 +23,7 @@ export class PopupConfirm extends Popup {
             evt.preventDefault()
             this._renderLoading(true)
             this._api.delete(cardId)
-            .then(res => {
-                console.log(res.ok) 
+            .then(() => {
                 element.remove()
             })
             .finally(() => {
