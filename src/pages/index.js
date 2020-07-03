@@ -19,7 +19,7 @@ const formConfig = {
 
 //создание класса Api
 const indentifier = 'cohort-12'
-const api = new Api(`https://mesto.nomoreparties.co/v1/${indentifier}/cards`)
+const api = new Api(`https://mesto.nomoreparties.co/v1/${indentifier}/`)
 
 //данные пользователя 
 const profileName = document.querySelector('.profile__name');
@@ -54,18 +54,20 @@ const userInfo = new UserInfo({
 }, profileAvatar)
 
 //Добавление всех карточек
-api.get().then(data => {
+api.get('cards').then(data => {
     data.forEach(item => {
         const card = new Card({
             name: item.name,
             link: item.link,
             like: item.likes.length,
+            cardId: item._id,
+            ownerId: item.owner._id,
             cardSelector: '#article__template',
             handleCardClick: (name, link) => {
                 popupWithImage.open(name, link);
             },
-            handleBusketClick: () => {
-                popupConfirm.open()
+            handleBusketClick: (cardId, element) => {
+                popupConfirm.open(cardId, element)
             }});
         const cardElement = card.cardGenerate();
         cardList.setItem(cardElement);  
@@ -87,13 +89,20 @@ const popupWithFormEdit = new PopupWithForm({
 const popupWithFormAdd = new PopupWithForm({
     popupSelector: '.popup__add',
     submitForm: (values) => {
-        api.post(values).then(data => {
+        api.post('cards', values).then(data => {
             const card = new Card({
                 name: data.name,
                 link: data.link,
+                like: data.likes.length,
+                cardId: data._id,
+                myId: data.owner._id,
+                ownerId: data.owner._id,
                 cardSelector: '#article__template',
                 handleCardClick: (name, link) => {
                     popupWithImage.open(name, link);
+                },
+                handleBusketClick: (cardId, element) => {
+                    popupConfirm.open(cardId, element)
                 }
             })
             const cardElement = card.cardGenerate();

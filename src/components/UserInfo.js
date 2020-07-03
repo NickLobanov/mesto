@@ -5,7 +5,7 @@ export class UserInfo {
         this._inputName = name;
         this._inputDescription = description;
         this._avatar = avatar;
-        this._api = new Api('https://mesto.nomoreparties.co/v1/cohort-12/users/me');
+        this._api = new Api('https://mesto.nomoreparties.co/v1/cohort-12/');
     }
     getUserInfo() {
         return {
@@ -35,10 +35,11 @@ export class UserInfo {
     }
 
     getUserProfile() {
-        this._api.get().then(data => {
+        this._api.get('users/me').then(data => {
             this._inputName.textContent = data.name;
             this._inputDescription.textContent =  data.about;
-            this._avatar.setAttribute('src', data.avatar)
+            this._avatar.setAttribute('src', data.avatar);
         })
     }
+
 }

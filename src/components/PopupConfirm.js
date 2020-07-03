@@ -1,23 +1,30 @@
 import {Popup} from './Popup.js';
+import {Api} from './Api.js'
 
 export class PopupConfirm extends Popup {
     constructor(popupSelector) {
         super(popupSelector)
         this._popupButton = this._popupSelector.querySelector('.popup__button')
-        this._handleSubmit = (evt) => {
-            evt.preventDefault();
-            this._submitForm(this._getInputValues());
-            this.close()
-        }
+        this._api = new Api('https://mesto.nomoreparties.co/v1/cohort-12/cards/')
     }
 
-    open() {
-        this._popupButton.addEventListener('click', this._handleSubmit)
+    open(cardId, element) {
+        this._cardId = cardId;
+        console.log(this._cardId)
+        console.log(element)
+        this._popupButton.addEventListener('click', (evt) => {
+            evt.preventDefault()
+            this._api.delete(cardId)
+            .then(res => {
+                console.log(res.ok) 
+                element.remove()
+            })
+            .finally(() => this.close())
+        })
         super.open()
     }
 
     close() {
         super.close();
-        this._popupButton.removeEventListener('click', this._handleSubmit)
     }
 }

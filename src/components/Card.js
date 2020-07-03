@@ -1,12 +1,17 @@
+import {Api} from './Api.js'
+
 export class Card {
-    constructor({name, link, cardSelector, handleCardClick, handleBusketClick, id, like}) {
+    constructor({name, link, cardSelector, handleCardClick, handleBusketClick, cardId, ownerId, like}) {
         this._name = name;
         this._link = link;
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
         this._handleBasketClick = handleBusketClick;
-        this._id = id;
-        this._like = like
+        this._cardId = cardId;
+        this._ownerId = ownerId;
+        this._like = like;
+        this._api = new Api('https://mesto.nomoreparties.co/v1/cohort-12/');
+        this._element = this.cardGenerate()
     }
 
     _getTemplate() {
@@ -25,25 +30,41 @@ export class Card {
         this._element.querySelector('.article__name').textContent = this._name;
         this._element.querySelector('.article__like-amount').textContent = this._like;
         this._setEventListeners()
-
+        this._api.get('users/me').then(data => {
+            if(data._id === this._ownerId) {
+                this._element.querySelector('.article__basket').classList.add('article__basket_active');
+            }
+        })
         return this._element;
     }   
 
     _setEventListeners() {
-        this._element.querySelector('.article__like').addEventListener('click', () => {
-            this._handleLikeClick();
+        this._element.querySelector('.article__like').addEventListener('click', (evt) => {
+            this._handleLikeClick(evt);
         })
 
         this._element.querySelector('.article__basket').addEventListener('click', () => {
-            this._handleBasketClick();
+            this._handleBasketClick(this._cardId, this._element);
         })
         this._element.querySelector('.article__foto').addEventListener('click', () => {
             this._handleCardClick(this._name, this._link);
         })
     }
 
-    _handleLikeClick() {
-        this._element.querySelector('.article__like').classList.toggle('article__like_active')
+    _handleLikeClick(evt) {
+        if(!evt.target.classList.contains('article__like_active')) {
+            this._api.put(`cards/likes/${this._cardId}`)
+                .then(data => {
+                    this._element.querySelector('.article__like-amount').textContent = data.likes.length;
+                })
+                evt.target.classList.add('article__like_active')
+        } else {
+            this._api.delete(`cards/likes/${this._cardId}`).then(data => {
+                this._element.querySelector('.article__like-amount').textContent = data.likes.length;
+            })  
+            this._element.querySelector('.article__like').classList.remove('article__like_active')
+        }
+        
     }
 
 }
