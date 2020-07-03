@@ -13,13 +13,19 @@ export class Api {
             }
         })
             .then((res) => {
-                return res.json();
+                if(res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Ошибка: ${res.status}`)
+            })
+            .catch((err) => {
+                console.log(err)
             })
             
     }
 
-    patch(values) {
-        return fetch(this._baseUrl, {
+    patch(url, values) {
+        return fetch(this._baseUrl + url, {
             method: 'PATCH',
             headers: {
                 authorization: this._token,
@@ -31,7 +37,13 @@ export class Api {
             })
         })
             .then(res => {
-                return res.json()
+                if(res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Ошибка: ${res.status}`)
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
 
@@ -47,7 +59,13 @@ export class Api {
             })
         })
             .then(res => {
-                return res.json()
+                if(res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Ошибка: ${res.status}`)
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
 
@@ -64,7 +82,13 @@ export class Api {
             })
         })
             .then(res => {
-                return res.json()
+                if(res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Ошибка: ${res.status}`)
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
 
@@ -77,7 +101,13 @@ export class Api {
             }
         })
             .then(res => {
-                return res.json()
+                if(res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Ошибка: ${res.status}`)
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
 
@@ -90,7 +120,13 @@ export class Api {
             }
         })
             .then(res => {
-                return res.json()
+                if(res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Ошибка: ${res.status}`)
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
 

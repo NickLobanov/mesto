@@ -21,17 +21,11 @@ export class UserInfo {
     }
 
     editUserAvatar(url,values) {
-        this._api.patchAvatar(url, values).then(data => {
-            this._avatar.setAttribute('src', data.avatar)
-        })
+        return this._api.patchAvatar(url, values)
     }
 
     setUserInfo(values) {
-        this._api.patch(values).then(data => {
-            this._inputName.textContent = data.name;
-            this._inputDescription.textContent = data.about;
-        });
-        
+        return this._api.patch('users/me', values)
     }
 
     getUserProfile() {

@@ -29,6 +29,7 @@ const profileAvatar = document.querySelector('.profile__foto')
 //Находим поля формы edit
 const popupEdit = document.querySelector('.popup__edit');
 const formEdit = popupEdit.querySelector('.popup__form');
+const formEditButton = popupEdit.querySelector('.popup__button')
 const popupEditName = popupEdit.querySelector('.popup__input_type_title');
 const popupEditDescription = popupEdit.querySelector('.popup__input_type_description');
 
@@ -36,10 +37,12 @@ const popupEditDescription = popupEdit.querySelector('.popup__input_type_descrip
 const popupAvatar = document.querySelector('.popup__avatar');
 const formAvatar = popupAvatar.querySelector('.popup__form');
 const inputAvatarLink = formAvatar.querySelector('.popup__input_type_title');
+const popupAvatarButton = popupAvatar.querySelector('.popup__button')
 
 //Находим поля формы add
 const popupAdd = document.querySelector('.popup__add');
 const formAdd = popupAdd.querySelector('.popup__form');
+const formAddButton = popupAdd.querySelector('.popup__button')
 
 //Создания классов валидации
 const formEditValidation = new FormValidator(formConfig, formEdit);
@@ -52,7 +55,7 @@ const userInfo = new UserInfo({
     name: profileName,
     description: profileDescription
 }, profileAvatar)
-
+//Добавление всех карточек
 userInfo.getUserProfile().then(id => {
     api.get('cards').then(data => {
         data.forEach(item => {
@@ -75,9 +78,17 @@ userInfo.getUserProfile().then(id => {
         }) 
     })
 });
-//Добавление всех карточек
 
-
+//UX для кнопок форм
+function renderLoading(button, isLoading) {
+    if(isLoading) {
+        button.setAttribute('disabled', true)
+        button.textContent = 'Сохранение..'
+    } else {
+        button.removeAttribute('disabled')
+        button.textContent = 'Сохранить'
+    }
+}
 
 //Создание классов Popup
 const popupWithImage = new PopupWithImage('.popup__image');
@@ -86,18 +97,29 @@ const popupConfirm = new PopupConfirm('.popup__confirm')
 const popupWithFormEdit = new PopupWithForm({
     popupSelector: '.popup__edit',
     submitForm: (values) => {
-        userInfo.setUserInfo(values);
+        renderLoading(formEditButton, true)
+        userInfo.setUserInfo(values)
+        .then(data => {
+            profileName.textContent = data.name;
+            profileDescription.textContent = data.about;
+        })
+        .finally(() => {
+            popupWithFormEdit.close()
+            renderLoading(formEditButton, false)
+        })
+       
     }
 })
 
 const popupWithFormAdd = new PopupWithForm({
     popupSelector: '.popup__add',
     submitForm: (values) => {
+        renderLoading(formAddButton, true)
         api.post('cards', values).then(data => {
             const card = new Card({
                 name: data.name,
                 link: data.link,
-                like: data.likes.length,
+                like: data.likes,
                 cardId: data._id,
                 myId: data.owner._id,
                 ownerId: data.owner._id,
@@ -111,14 +133,26 @@ const popupWithFormAdd = new PopupWithForm({
             })
             const cardElement = card.cardGenerate();
             cardList.setItem(cardElement);
-            })
+        })
+        .finally(() => {
+            popupWithFormAdd.close()
+            renderLoading(formAddButton, false)
+        })
     }
 })
 
 const popupEditAvatar = new PopupWithForm({
     popupSelector: '.popup__avatar',
     submitForm: (values) => {
-        userInfo.editUserAvatar('/avatar', values)
+        renderLoading(popupAvatarButton, true)
+        userInfo.editUserAvatar('users/me/avatar', values)
+            .then(data => {
+                profileAvatar.setAttribute('src', data.avatar) 
+            })
+            .finally(() => {
+                popupEditAvatar.close()
+                renderLoading(popupAvatarButton, false)
+            })
     }
 })
 

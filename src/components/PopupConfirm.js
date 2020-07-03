@@ -8,18 +8,29 @@ export class PopupConfirm extends Popup {
         this._api = new Api('https://mesto.nomoreparties.co/v1/cohort-12/cards/')
     }
 
+    _renderLoading(isLoading) {
+        if(isLoading) {
+            this._popupButton.setAttribute('disabled', true)
+            this._popupButton.textContent = 'Удаление..'
+        } else {
+            this._popupButton.removeAttribute('disabled')
+            this._popupButton.textContent = 'Да'
+        }
+    }
     open(cardId, element) {
         this._cardId = cardId;
-        console.log(this._cardId)
-        console.log(element)
         this._popupButton.addEventListener('click', (evt) => {
             evt.preventDefault()
+            this._renderLoading(true)
             this._api.delete(cardId)
             .then(res => {
                 console.log(res.ok) 
                 element.remove()
             })
-            .finally(() => this.close())
+            .finally(() => {
+                this.close()
+                this._renderLoading(false)
+            })
         })
         super.open()
     }
