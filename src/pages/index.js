@@ -53,26 +53,30 @@ const userInfo = new UserInfo({
     description: profileDescription
 }, profileAvatar)
 
+userInfo.getUserProfile().then(id => {
+    api.get('cards').then(data => {
+        data.forEach(item => {
+            const card = new Card({
+                name: item.name,
+                link: item.link,
+                like: item.likes,
+                cardId: item._id,
+                myId: id,
+                ownerId: item.owner._id,
+                cardSelector: '#article__template',
+                handleCardClick: (name, link) => {
+                    popupWithImage.open(name, link);
+                },
+                handleBusketClick: (cardId, element) => {
+                    popupConfirm.open(cardId, element)
+                }});
+            const cardElement = card.cardGenerate();
+            cardList.setItem(cardElement);  
+        }) 
+    })
+});
 //Добавление всех карточек
-api.get('cards').then(data => {
-    data.forEach(item => {
-        const card = new Card({
-            name: item.name,
-            link: item.link,
-            like: item.likes.length,
-            cardId: item._id,
-            ownerId: item.owner._id,
-            cardSelector: '#article__template',
-            handleCardClick: (name, link) => {
-                popupWithImage.open(name, link);
-            },
-            handleBusketClick: (cardId, element) => {
-                popupConfirm.open(cardId, element)
-            }});
-        const cardElement = card.cardGenerate();
-        cardList.setItem(cardElement);  
-    }) 
-})
+
 
 
 //Создание классов Popup
@@ -142,7 +146,7 @@ function editUserAvatar() {
 }
 document.querySelector('.profile__wrap').addEventListener('click', editUserAvatar)
 
-userInfo.getUserProfile();
+
 
 
 

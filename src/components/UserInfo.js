@@ -35,10 +35,11 @@ export class UserInfo {
     }
 
     getUserProfile() {
-        this._api.get('users/me').then(data => {
+        return this._api.get('users/me').then(data => {
             this._inputName.textContent = data.name;
             this._inputDescription.textContent =  data.about;
             this._avatar.setAttribute('src', data.avatar);
+            return data._id
         })
     }
 

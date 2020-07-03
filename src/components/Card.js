@@ -1,13 +1,14 @@
 import {Api} from './Api.js'
 
 export class Card {
-    constructor({name, link, cardSelector, handleCardClick, handleBusketClick, cardId, ownerId, like}) {
+    constructor({name, link, cardSelector, handleCardClick, handleBusketClick, cardId, myId, ownerId, like}) {
         this._name = name;
         this._link = link;
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
         this._handleBasketClick = handleBusketClick;
         this._cardId = cardId;
+        this._myId = myId;
         this._ownerId = ownerId;
         this._like = like;
         this._api = new Api('https://mesto.nomoreparties.co/v1/cohort-12/');
@@ -28,11 +29,14 @@ export class Card {
         this._elementFoto.src = this._link;
         this._elementFoto.alt = this._name;
         this._element.querySelector('.article__name').textContent = this._name;
-        this._element.querySelector('.article__like-amount').textContent = this._like;
+        this._element.querySelector('.article__like-amount').textContent = this._like.length;
         this._setEventListeners()
-        this._api.get('users/me').then(data => {
-            if(data._id === this._ownerId) {
-                this._element.querySelector('.article__basket').classList.add('article__basket_active');
+        if (this._ownerId === this._myId) {
+            this._element.querySelector('.article__basket').classList.add('article__basket_active')
+        }
+        this._like.some(item => {
+            if (item._id === this._myId) {
+                this._element.querySelector('.article__like').classList.add('article__like_active')
             }
         })
         return this._element;
