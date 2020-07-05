@@ -1,11 +1,9 @@
-import {Api} from './Api.js'
-
 export class UserInfo {
-    constructor({name, description}, avatar) {
+    constructor({name, description, api}, avatar) {
         this._inputName = name;
         this._inputDescription = description;
         this._avatar = avatar;
-        this._api = new Api('https://mesto.nomoreparties.co/v1/cohort-12/');
+        this._api = api;
     }
     getUserInfo() {
         return {

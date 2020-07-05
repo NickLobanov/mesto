@@ -17,7 +17,7 @@
 .article__description{background-color:#fff;display:flex;justify-content:space-between;align-items:center}
 .article__foto{display:block;width:100%;height:282px}@media screen and (max-width:650px){.article__foto{-o-object-fit:cover;object-fit:cover;height:551px}}@media screen and (max-width:500px){.article__foto{height:472px}}@media screen and (max-width:400px){.article__foto{height:282px}}
 .article__like{margin-bottom:3px;width:20px;height:18px;background-image:url(./images/heart.svg);background-repeat:no-repeat;background-position:50%;background-size:cover;background-color:transparent;border:none}.article__like:hover{opacity:.6;cursor:pointer}
-.article__name{margin:25px 0 31px 21px;font-weight:900;font-size:24px;line-height:29px}
+.article__name{margin:25px 0 31px 21px;font-weight:900;font-size:24px;line-height:29px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .article__basket{position:absolute;top:18px;right:15px;height:25px;width:25px;background-color:transparent;border:none;background-image:url(./images/Trash.svg);background-position:50%;background-repeat:no-repeat;z-index:3;display:none}.article__basket:hover{opacity:.6;transition:1s linear;cursor:pointer}
 .article__like_active{background-image:url(./images/heart-active.svg)}
 

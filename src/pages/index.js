@@ -26,6 +26,7 @@ const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 const profileAvatar = document.querySelector('.profile__foto')
 
+
 //Находим поля формы edit
 const popupEdit = document.querySelector('.popup__edit');
 const formEdit = popupEdit.querySelector('.popup__form');
@@ -48,56 +49,58 @@ const formAddButton = popupAdd.querySelector('.popup__button')
 const formEditValidation = new FormValidator(formConfig, formEdit);
 const formAddValidation = new FormValidator(formConfig, formAdd);
 const formAvatarVAlidator = new FormValidator(formConfig, formAvatar);
-//Создание класса Section
-const cardList = new Section('.elements')
 
 const userInfo = new UserInfo({
     name: profileName,
-    description: profileDescription
+    description: profileDescription,
+    api: api
 }, profileAvatar)
+
+const cardList = new Section({
+    renderer: (item, id) => {
+        const card = new Card({
+            data: item,
+            myId: id,
+            api: api,
+            cardSelector: '#article__template',
+            handleCardClick: (name, link) => {
+                popupWithImage.open(name, link);
+            },
+            handleBusketClick: (cardId, element) => {
+                popupConfirm.open(cardId, element, api)
+            },
+        });
+        const cardElement = card.cardGenerate()
+        cardList.setItem(cardElement)
+    }
+}, '.elements')
 //Добавление всех карточек
 userInfo.getUserProfile().then(id => {
     api.get('cards').then(data => {
-        data.forEach(item => {
-            const card = new Card({
-                name: item.name,
-                link: item.link,
-                like: item.likes,
-                cardId: item._id,
-                myId: id,
-                ownerId: item.owner._id,
-                cardSelector: '#article__template',
-                handleCardClick: (name, link) => {
-                    popupWithImage.open(name, link);
-                },
-                handleBusketClick: (cardId, element) => {
-                    popupConfirm.open(cardId, element)
-                }});
-            const cardElement = card.cardGenerate();
-            cardList.setItem(cardElement);  
-        }) 
+        cardList.renderItems(data, id)
     })
 });
 
+
 //UX для кнопок форм
-function renderLoading(button, isLoading) {
+const renderLoading = (button, isLoading, textButton) => {
     if(isLoading) {
         button.setAttribute('disabled', true)
-        button.textContent = 'Сохранение..'
+        button.textContent = textButton;
     } else {
         button.removeAttribute('disabled')
-        button.textContent = 'Сохранить'
+        button.textContent = textButton
     }
 }
 
 //Создание классов Popup
 const popupWithImage = new PopupWithImage('.popup__image');
-const popupConfirm = new PopupConfirm('.popup__confirm')
+const popupConfirm = new PopupConfirm('.popup__confirm', renderLoading)
 
 const popupWithFormEdit = new PopupWithForm({
     popupSelector: '.popup__edit',
     submitForm: (values) => {
-        renderLoading(formEditButton, true)
+        renderLoading(formEditButton, true, 'Сохранение..')
         userInfo.setUserInfo(values)
         .then(data => {
             profileName.textContent = data.name;
@@ -105,7 +108,7 @@ const popupWithFormEdit = new PopupWithForm({
         })
         .finally(() => {
             popupWithFormEdit.close()
-            renderLoading(formEditButton, false)
+            renderLoading(formEditButton, false, 'Сохранить')
         })
        
     }
@@ -114,21 +117,18 @@ const popupWithFormEdit = new PopupWithForm({
 const popupWithFormAdd = new PopupWithForm({
     popupSelector: '.popup__add',
     submitForm: (values) => {
-        renderLoading(formAddButton, true)
+        renderLoading(formAddButton, true, 'Сохранение...')
         api.post('cards', values).then(data => {
             const card = new Card({
-                name: data.name,
-                link: data.link,
-                like: data.likes,
-                cardId: data._id,
+                data: data,
+                api: api,
                 myId: data.owner._id,
-                ownerId: data.owner._id,
                 cardSelector: '#article__template',
                 handleCardClick: (name, link) => {
                     popupWithImage.open(name, link);
                 },
-                handleBusketClick: (cardId, element) => {
-                    popupConfirm.open(cardId, element)
+                handleBusketClick: (cardId, element, api) => {
+                    popupConfirm.open(cardId, element, api)
                 }
             })
             const cardElement = card.cardGenerate();
@@ -136,7 +136,7 @@ const popupWithFormAdd = new PopupWithForm({
         })
         .finally(() => {
             popupWithFormAdd.close()
-            renderLoading(formAddButton, false)
+            renderLoading(formAddButton, false, 'Сохранить')
         })
     }
 })
@@ -144,14 +144,14 @@ const popupWithFormAdd = new PopupWithForm({
 const popupEditAvatar = new PopupWithForm({
     popupSelector: '.popup__avatar',
     submitForm: (values) => {
-        renderLoading(popupAvatarButton, true)
+        renderLoading(popupAvatarButton, true, 'Сохранение...')
         userInfo.editUserAvatar('users/me/avatar', values)
             .then(data => {
                 profileAvatar.setAttribute('src', data.avatar) 
             })
             .finally(() => {
                 popupEditAvatar.close()
-                renderLoading(popupAvatarButton, false)
+                renderLoading(popupAvatarButton, false, 'Сохранить')
             })
     }
 })
