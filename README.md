@@ -7,5 +7,7 @@
 1. Flexbox 
 2. Медиа запросы 
 3. JavaScript 
+4. Webpack 
+5. ООП 
 
 GitHub Pages:  https://nicklobanov.github.io/mesto/ 

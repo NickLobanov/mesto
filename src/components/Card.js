@@ -10,8 +10,6 @@ export class Card {
         this._ownerId = data.owner._id;
         this._like = data.likes;
         this._api = api;
-        this._element = this.cardGenerate()
-         
     }
 
     _getTemplate() {
@@ -46,8 +44,9 @@ export class Card {
             this._handleLikeClick(evt);
         })
 
-        this._element.querySelector('.article__basket').addEventListener('click', () => {
-            this._handleBasketClick(this._cardId, this._element, this._api);
+        this._element.querySelector('.article__basket').addEventListener('click', (evt) => {
+            this._cardElement = evt.target.parentElement;
+            this._handleBasketClick(this._cardId, this._cardElement, this._api);
         })
         this._element.querySelector('.article__foto').addEventListener('click', () => {
             this._handleCardClick(this._name, this._link);

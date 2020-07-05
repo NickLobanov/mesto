@@ -7,6 +7,7 @@ import {PopupWithForm} from '../components/PopupWithForm.js';
 import {UserInfo} from '../components/UserInfo.js';
 import {Api} from '../components/Api.js'
 import { PopupConfirm } from '../components/PopupConfirm';
+import {renderLoading} from '../utils/utils.js'
 
 //Объект с селекторами для настройки валидации
 const formConfig = {
@@ -56,42 +57,34 @@ const userInfo = new UserInfo({
     api: api
 }, profileAvatar)
 
-const cardList = new Section({
-    renderer: (item, id) => {
-        const card = new Card({
-            data: item,
-            myId: id,
-            api: api,
-            cardSelector: '#article__template',
-            handleCardClick: (name, link) => {
-                popupWithImage.open(name, link);
-            },
-            handleBusketClick: (cardId, element) => {
-                popupConfirm.open(cardId, element, api)
-            },
-        });
-        const cardElement = card.cardGenerate()
-        cardList.setItem(cardElement)
-    }
-}, '.elements')
 //Добавление всех карточек
 userInfo.getUserProfile().then(id => {
     api.get('cards').then(data => {
-        cardList.renderItems(data, id)
+        const cardList = new Section({
+            data: data,
+            renderer: (item) => {
+                const card = new Card({
+                    data: item,
+                    myId: id,
+                    api: api,
+                    cardSelector: '#article__template',
+                    handleCardClick: (name, link) => {
+                        popupWithImage.open(name, link);
+                    },
+                    handleBusketClick: (cardId, element, api) => {
+                        popupConfirm.open(cardId, element, api)
+                    },
+                });
+                const cardElement = card.cardGenerate()
+                cardList.setItem(cardElement)
+            }
+        }, '.elements')
+        cardList.renderItems()
     })
 });
 
 
-//UX для кнопок форм
-const renderLoading = (button, isLoading, textButton) => {
-    if(isLoading) {
-        button.setAttribute('disabled', true)
-        button.textContent = textButton;
-    } else {
-        button.removeAttribute('disabled')
-        button.textContent = textButton
-    }
-}
+
 
 //Создание классов Popup
 const popupWithImage = new PopupWithImage('.popup__image');
@@ -119,20 +112,26 @@ const popupWithFormAdd = new PopupWithForm({
     submitForm: (values) => {
         renderLoading(formAddButton, true, 'Сохранение...')
         api.post('cards', values).then(data => {
-            const card = new Card({
-                data: data,
-                api: api,
-                myId: data.owner._id,
-                cardSelector: '#article__template',
-                handleCardClick: (name, link) => {
-                    popupWithImage.open(name, link);
-                },
-                handleBusketClick: (cardId, element, api) => {
-                    popupConfirm.open(cardId, element, api)
+            const cardList = new Section({
+                data: [data],
+                renderer: (item) => {
+                    const card = new Card({
+                        data: item,
+                        api: api,
+                        myId: item.owner._id,
+                        cardSelector: '#article__template',
+                        handleCardClick: (name, link) => {
+                            popupWithImage.open(name, link);
+                        },
+                        handleBusketClick: (cardId, element, api) => {
+                            popupConfirm.open(cardId, element, api)
+                        }
+                    })
+                    const cardElement = card.cardGenerate();
+                    cardList.setItem(cardElement);
                 }
-            })
-            const cardElement = card.cardGenerate();
-            cardList.setItem(cardElement);
+            }, '.elements')
+            cardList.renderItems()
         })
         .finally(() => {
             popupWithFormAdd.close()
