@@ -8,5 +8,16 @@
 * JavaScript  
 * ООП  
 * Webpack 
+ 
+# Инструкция по развертыванию на локальном сервере 
+1. Клонируйте репозиторий 
+2. Установите npm зависимости 
+``` 
+npm install 
+``` 
+3. Запуск локального сервера 
+```
+npm run dev 
+``` 
 
 GitHub Pages:  https://nicklobanov.github.io/mesto/ 
